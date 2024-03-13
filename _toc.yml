@@ -1,0 +1,24 @@
+format: jb-book
+root: intro
+parts:
+  - caption: Software Environment
+    chapters:
+      - file: 0_Software_Environment.ipynb
+  - caption: Data Access
+    chapters:
+      - file: 1_Download_HyP3_Data.ipynb
+  - caption: MintPy
+    chapters:
+      - file: 2_Load_HyP3_Data.ipynb
+      - file: 3_Update_Configuration.ipynb
+      - file: 4_MintPy_Time_Series.ipynb
+      - file: 5_Rerun_Plots.ipynb
+      - file: 6_Output_GeoTiff.ipynb
+  - caption: Resources
+    chapters:
+      - url: https://hyp3-docs.asf.alaska.edu
+        title: ASF HyP3 On-Demand Processing
+      - url: https://search.asf.alaska.edu
+        title: ASF Vertex, Data Search
+      - url: https://github.com/insarlab/MintPy
+        title: MintPy GitHub Repository

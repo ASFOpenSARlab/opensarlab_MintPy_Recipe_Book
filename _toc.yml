@@ -1,21 +1,27 @@
 format: jb-book
 root: intro
 parts:
+  - caption: Start Here
+    chapters:
+      - file: Start_Here.md
   - caption: Software Environment
     chapters:
-      - file: 0_Software_Environment.ipynb
+      - file: 1_Software_Environment.ipynb
   - caption: Data Access
     chapters:
-      - file: CDS_Access.ipynb
-      - file: 1_Download_HyP3_Data.ipynb
-  - caption: MintPy
+      - file: 2_CDS_Access.ipynb
+      - file: 3_Download_HyP3_Data.ipynb
+  - caption: MintPy Time Series
     chapters:
-      - file: 2_Load_HyP3_Data.ipynb
-      - file: 3_Update_Configuration.ipynb
-      - file: 4_MintPy_Time_Series.ipynb
-      - file: 5_Rerun_Plots.ipynb
-      - file: 6_Output_GeoTiff.ipynb
-  - caption: Resources
+      - file: a_Load_HyP3_Data.ipynb
+      - file: b_Update_Configuration.ipynb
+      - file: c_MintPy_Time_Series.ipynb
+  - caption: Extras
+    chapters:
+      - file: Error_Analysis.ipynb
+      - file: Plots.ipynb
+      - file: Output_GeoTiff.ipynb
+  - caption: Resources 
     chapters:
       - url: https://hyp3-docs.asf.alaska.edu
         title: ASF HyP3 On-Demand Processing

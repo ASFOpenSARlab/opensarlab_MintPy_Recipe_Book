@@ -1,8 +1,12 @@
 from collections import Counter
-from osgeo import gdal
+import os
 from pathlib import Path
 import re
-from typing import List, Union, Dict
+from typing import List, Union, Dict, Tuple
+
+import mintpy
+import numpy as np
+from osgeo import gdal
 
 
 
@@ -28,7 +32,7 @@ def get_projection(img_path: Union[Path, str]) -> Union[str, None]:
         return None
 
 
-def get_projections(tiff_paths: List[Union[Path, str]]) -> Dict:
+def get_projections(tiff_paths: List[Union[os.PathLike, str]]) -> Dict:
     """
     Takes: List of string or posix paths to geotiffs
     
@@ -56,3 +60,17 @@ def get_no_data_val(pth):
         return np.nan if no_data_val == None else f.GetRasterBand(1).GetNoDataValue()
     else:
         return 0
+
+
+def get_mintpy_vmin_vmax(dataset_path: os.PathLike) -> Tuple[float, float]:
+    """
+    Takes: path to a MintPy hdf5 dataset
+
+    Returns: vmin, vmax values coveringt the data, centered at zero
+    """
+    data, _ = mintpy.utils.readfile.read(dataset_path)
+    vel_min = -np.min(data) * 100
+    vel_max = np.max(data) * 100
+    vmin = -np.max([np.abs(vel_min), np.abs(vel_max)])
+    vmax = np.max([np.abs(vel_min), np.abs(vel_max)])  
+    return (vmin, vmax)

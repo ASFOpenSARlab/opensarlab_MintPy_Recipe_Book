@@ -32,19 +32,19 @@ If you are working in JupyterLab and have the [jupyterlab-jupyterbok-navigation]
 >
 >1. ### Load Data with MintPy
 >
->    - Run the **Load HyP3 SBAS Stack into MintPy** notebook (a_Load_HyP3_Data.ipynb)
+>    - Run the **A. Load HyP3 SBAS Stack into MintPy** notebook (a_Load_HyP3_Data.ipynb)
 >    - Run once per SBAS stack
 >  
 >1. ### Configure a Time Series Analysis
 >
->    - Run the **Configure (or Reconfigure) MintPy Time Series Analysis** notebook (b_Update_Configuration.ipynb)
+>    - Run the **B. Configure (or Reconfigure) MintPy Time Series Analysis** notebook (b_Update_Configuration.ipynb)
 >    - Run anytime you wish to update the configuration of your time series
 >  
 >1. ### Perform the Time Series Analysis
 >
->    - Run the **Perform MintPy Time Series Analysis** notebook (c_MintPy_Time_Series.ipynb)
+>    - Run the **C. Perform MintPy Time Series Analysis** notebook (c_MintPy_Time_Series.ipynb)
 >
->1. ### Run "Extra" Notebooks
+>1. ### Run Post-Time Series Workflows
 >
 >    - Error Analysis (Error_Analysis.ipynb)
 >    - Plotting (Plots.ipynb)

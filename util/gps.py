@@ -251,7 +251,7 @@ def gps_station_info_plot(mint_path, velocity_png_pth, gps_stations, gps_dict):
                x_axis_type="mercator", y_axis_type="mercator", tooltips=TOOLTIPS)
     
     p.add_tile('CARTODBPOSITRON')
-    p.circle_dot(x='x', y='y', size=20, fill_alpha=0.2, color='red', alpha=0.6, source=source)
+    p.scatter(marker='circle_dot', x='x', y='y', size=20, fill_alpha=0.2, color='red', alpha=0.6, source=source)
     
     p.add_layout(labels)
     

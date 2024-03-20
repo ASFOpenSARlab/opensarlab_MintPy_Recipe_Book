@@ -1,6 +1,6 @@
-# Start Here
+<img src="ASF_logo.svg" alt="ASF logo" width="10%"/>
 
-<img src="ASF_logo.svg" alt="ASF logo" width="35%"/>
+# Start Here
 
 This Jupyter Book contains data recipes for loading ASF HyP3 INSAR_GAMMA and INSAR_ISCE_BURST stacks into MintPy and performing line-of-sight, displacement time series analyses. It also provides options for error analysis, plotting, and outputting data to GeoTiff.
 
@@ -10,9 +10,11 @@ This Jupyter Book contains data recipes for loading ASF HyP3 INSAR_GAMMA and INS
 >
 >*https://github.com/insarlab/MintPy*
 
-## How To Use This Jupyter Book
-If you are working in JupyterLab and have the [jupyterlab-jupyterbok-navigation](https://github.com/ASFOpenSARlab/jupyterlab-jupyterbook-navigation) extension installed, navigate to this Jupyter Book (`opensarlab_MintPy_Recipe_Book`) in your JupyterLab file browser and click the left sidebar `JB` tab to access the table of contents. Otherwise, Access the Jupyter Notebooks directly from the file browser.
+## JupyterBook Navigation
 
+- For an improved Jupyter Book Experience in JupyterLab, try installing the [jupyterlab-jupyterbook-navigation](https://github.com/ASFOpenSARlab/jupyterlab-jupyterbook-navigation) JupyterLab extension
+
+## How To Use This Jupyter Book
 
 >1. ### Install the software environment needed to run the notebooks
 >

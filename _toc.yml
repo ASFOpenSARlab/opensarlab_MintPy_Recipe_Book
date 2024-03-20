@@ -21,17 +21,19 @@ parts:
       - file: Error_Analysis.ipynb
       - file: Plots.ipynb
       - file: Output_GeoTiff.ipynb
-  - caption: Resources 
-    chapters:
-      - url: https://hyp3-docs.asf.alaska.edu
-        title: ASF HyP3 On-Demand Processing
-      - url: https://search.asf.alaska.edu
-        title: ASF Vertex, Data Search
-      - url: https://storymaps.arcgis.com/stories/68a8a3253900411185ae9eb6bb5283d3
-        title: InSAR On Demand! StoryMap
-      - url: https://hyp3-docs.asf.alaska.edu/guides/burst_insar_product_guide/
-        title: HyP3 Sentinel-1 INSAR_ISCE_BURST Product Guide
-      - url: https://hyp3-docs.asf.alaska.edu/guides/insar_product_guide/
-        title: HyP3 Sentinel-1 INSAR_GAMMA Product Guide
-      - url: https://github.com/insarlab/MintPy
-        title: MintPy GitHub Repository
+      - file: resources.md
+        sections:
+        - url: https://hyp3-docs.asf.alaska.edu
+          title: ASF HyP3 On-Demand Processing
+        - url: https://search.asf.alaska.edu
+          title: ASF Vertex, Data Search
+        - url: https://storymaps.arcgis.com/stories/68a8a3253900411185ae9eb6bb5283d3
+          title: InSAR On Demand! StoryMap
+        - url: https://hyp3-docs.asf.alaska.edu/guides/burst_insar_product_guide/
+          title: HyP3 Sentinel-1 INSAR_ISCE_BURST Product Guide
+        - url: https://hyp3-docs.asf.alaska.edu/guides/insar_product_guide/
+          title: HyP3 Sentinel-1 INSAR_GAMMA Product Guide
+        - url: https://mintpy.readthedocs.io/en/latest/
+          title: MintPy Documentation
+        - url: https://github.com/insarlab/MintPy
+          title: MintPy GitHub Repository

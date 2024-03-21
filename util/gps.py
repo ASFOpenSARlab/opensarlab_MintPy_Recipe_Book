@@ -1,7 +1,6 @@
 import base64
 import csv
 from datetime import datetime
-from dateutil.relativedelta import relativedelta
 import os
 from pathlib import Path
 import re
@@ -112,7 +111,7 @@ def get_gps_stations(mint_path: Union[str, os.PathLike], filename='GPS_stations.
             lon = lon[0]
 
             in_aoi = (northing_north <= lat <= northing_south) and (easting_east <= lon <= easting_west)
-            in_date_range = ts_start >= begin_date and ts_end <= mod_date + relativedelta(days=+2)
+            in_date_range = ts_start >= begin_date and ts_end <= mod_date
 
             # filter GPS stations
             if in_aoi and in_date_range and utm == gps_utm:
@@ -266,5 +265,3 @@ def gps_station_info_plot(mint_path, velocity_png_pth, gps_stations, gps_dict):
     layout = bokeh.layouts.row(p, div)
     
     show(layout)
-
-

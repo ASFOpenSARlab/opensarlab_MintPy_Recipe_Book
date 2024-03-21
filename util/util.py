@@ -62,15 +62,21 @@ def get_no_data_val(pth):
         return 0
 
 
-def get_mintpy_vmin_vmax(dataset_path: os.PathLike) -> Tuple[float, float]:
+def get_mintpy_vmin_vmax(dataset_path: os.PathLike, bottom_percentile: float=0.0) -> Tuple[float, float]:
     """
-    Takes: path to a MintPy hdf5 dataset
+    Takes: 
+    dataset_path: path to a MintPy hdf5 dataset
+    bottom_percentile: lower end of the percentile you would like to use for vmin, vmax
+                       The upper end of the percentile will be symetrical with the passed lower end.
+                       Passing 0.05 as the bottom_percentile will result in 1.0 - 0.5 = 0.95 being used for the high end
 
     Returns: vmin, vmax values coveringt the data, centered at zero
     """
     data, _ = mintpy.utils.readfile.read(dataset_path)
-    vel_min = -np.min(data) * 100
-    vel_max = np.max(data) * 100
+
+    vel_min = np.percentile(data, bottom_percentile) * 100
+    vel_max = np.percentile(data, 1.0-bottom_percentile) * 100
+    
     vmin = -np.max([np.abs(vel_min), np.abs(vel_max)])
     vmax = np.max([np.abs(vel_min), np.abs(vel_max)])  
     return (vmin, vmax)

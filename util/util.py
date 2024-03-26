@@ -80,3 +80,25 @@ def get_mintpy_vmin_vmax(dataset_path: os.PathLike, bottom_percentile: float=0.0
     vmin = -np.max([np.abs(vel_min), np.abs(vel_max)])
     vmax = np.max([np.abs(vel_min), np.abs(vel_max)])  
     return (vmin, vmax)
+
+def get_recent_mintpy_config_path() -> Union[os.PathLike, None]:
+    """
+    Returns the mintpy config path saved in .recent_mintpy_config
+    if it exists else None
+    """
+    recent_mintpy_path = Path.cwd() / '.recent_mintpy_config'
+
+    try:
+        with open(recent_mintpy_path, 'r') as f:
+            line = f.readline()
+            return Path(line)         
+    except FileNotFoundError:
+        return None
+    except:
+        raise
+
+
+def write_recent_mintpy_config_path(pth: Union[str, os.PathLike]):
+    recent_mintpy_path = Path.cwd() / '.recent_mintpy_config'
+    with open(recent_mintpy_path, 'w+') as f:
+        f.write(str(pth))

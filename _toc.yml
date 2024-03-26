@@ -10,7 +10,7 @@ parts:
   - caption: Data Access
     chapters:
       - file: 2_CDS_Access.ipynb
-      - file: 3_Download_HyP3_Data.ipynb
+      - file: 3_Access_HyP3_Data.ipynb
   - caption: MintPy Time Series
     chapters:
       - file: a_Load_HyP3_Data.ipynb

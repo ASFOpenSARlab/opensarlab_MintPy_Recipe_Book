@@ -13,7 +13,7 @@ import bokeh.layouts
 from pandas.core.frame import DataFrame
 import h5py
 import mintpy
-from mintpy.utils import utils0 as ut0
+from mintpy.utils import utils0, readfile, utils
 import numpy as np
 import opensarlab_lib as osl
 from osgeo import gdal
@@ -71,7 +71,7 @@ def get_gps_stations(mint_path: Union[str, os.PathLike], filename='GPS_stations.
 
         utm = get_utm_zone(lat_north, lon_west)
 
-        lat_in, lon_in = ut0.latlon2utm(
+        lat_in, lon_in = utils0.latlon2utm(
             np.array([lat_south, lat_north]), 
             np.array([lon_west, lon_east]))
 
@@ -106,7 +106,7 @@ def get_gps_stations(mint_path: Union[str, os.PathLike], filename='GPS_stations.
             gps_utm = get_utm_zone(lat, lon)
 
             # Convert GPS coords to UTM
-            lat, lon = ut0.latlon2utm(np.array([lat]), np.array([lon]))
+            lat, lon = utils0.latlon2utm(np.array([lat]), np.array([lon]))
             lat = lat[0]
             lon = lon[0]
 
@@ -116,11 +116,11 @@ def get_gps_stations(mint_path: Union[str, os.PathLike], filename='GPS_stations.
             # filter GPS stations
             if in_aoi and in_date_range and utm == gps_utm:
                 geo_path = f'{mint_path}/inputs/geometryGeo.h5'
-                atr = mintpy.utils.readfile.read_attribute(geo_path)
-                coord = mintpy.utils.utils.coordinate(atr, lookup_file=geo_path)
+                atr = readfile.read_attribute(geo_path)
+                coord = utils.coordinate(atr, lookup_file=geo_path)
 
-                y, x = mintpy.utils.utils.coordinate.lalo2yx(coord, lat, lon)
-                vel, _ = mintpy.utils.readfile.read(f"{mint_path}/velocity.h5", datasetName='velocity')
+                y, x = utils.coordinate.lalo2yx(coord, lat, lon)
+                vel, _ = readfile.read(f"{mint_path}/velocity.h5", datasetName='velocity')
                 yx_vel = (vel[y][x])
     
                 # remove gps stations in no-data areas of raster
@@ -174,7 +174,7 @@ def get_xyxy_web_bounds(mint_path: os.PathLike) -> Tuple[float, float, float, fl
     Returns a tuple of corner coordinates in web-mercator projection
     (lower_left_x, lower_left_y, upper_right_x, upper_right_y)
     """
-    _, my_dict = mintpy.utils.readfile.read(f'{mint_path}/inputs/geometryGeo.h5', datasetName='height')
+    _, my_dict = readfile.read(f'{mint_path}/inputs/geometryGeo.h5', datasetName='height')
 
     x_first = float(my_dict['X_FIRST'])
     x_step = float(my_dict['X_STEP'])

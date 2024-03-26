@@ -90,12 +90,14 @@ def get_recent_mintpy_config_path() -> Union[os.PathLike, None]:
 
     try:
         with open(recent_mintpy_path, 'r') as f:
-            line = f.readline()
-            return Path(line)         
+            line = f.readline()    
+            if Path(line).exists():
+                return Path(line)
     except FileNotFoundError:
         return None
     except:
         raise
+    return None # Found a recent path but it no longer exists
 
 
 def write_recent_mintpy_config_path(pth: Union[str, os.PathLike]):

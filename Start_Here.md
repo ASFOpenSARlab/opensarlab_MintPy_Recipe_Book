@@ -10,9 +10,13 @@ This Jupyter Book contains data recipes for loading ASF HyP3 INSAR_GAMMA and INS
 >
 >*https://github.com/insarlab/MintPy*
 
-## JupyterBook Navigation
+<br>
+<div class="alert alert-success">
+<font face="Calibri" size="5"><b><font color='rgba(200,0,0,0.2)'> <u>Jupyter Book Navigation</u></font></b></font>
 
-- For an improved Jupyter Book Experience in JupyterLab, try installing the [jupyterlab-jupyterbook-navigation](https://github.com/ASFOpenSARlab/jupyterlab-jupyterbook-navigation) JupyterLab extension
+<font face="Calibri" size="3">For an improved Jupyter Book Experience in JupyterLab, try installing the [jupyterlab-jupyterbook-navigation](https://pypi.org/project/jupyterlab-jupyterbook-navigation/) JupyterLab extension.
+</font>
+</div>
 
 ## How To Use This Jupyter Book
 
@@ -27,9 +31,9 @@ This Jupyter Book contains data recipes for loading ASF HyP3 INSAR_GAMMA and INS
 >    - Configure CDS access if you will perform tropospheric correction
 >    - If you do not wish to perform tropospheric correction, you must set the following config option: `mintpy.troposphericDelay.method = no`
 >
->1. ### Download HyP3 Data
+>1. ### Migrate HyP3 Data
 >
->    - Run the **Download & Subset HyP3 SBAS Stack (InSAR or Burst-InSAR)** notebook (3_Download_HyP3_Data.ipynb)
+>    - Run the **Migrate & Subset HyP3 SBAS Stack (InSAR or Burst-InSAR)** notebook (3_Access_HyP3_Data.ipynb)
 >    - How-to: [order interferograms from HyP3](https://storymaps.arcgis.com/stories/68a8a3253900411185ae9eb6bb5283d3)
 >
 >1. ### Load Data with MintPy

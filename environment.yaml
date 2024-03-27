@@ -1,4 +1,4 @@
-name: osl_mintpy
+name: opensarlab_mintpy_recipe_book
 channels:
   - conda-forge
 dependencies:

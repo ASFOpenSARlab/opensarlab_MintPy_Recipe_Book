@@ -31,9 +31,9 @@ This Jupyter Book contains data recipes for loading ASF HyP3 INSAR_GAMMA and INS
 >    - Configure CDS access if you will perform tropospheric correction
 >    - If you do not wish to perform tropospheric correction, you must set the following config option: `mintpy.troposphericDelay.method = no`
 >
->1. ### Migrate HyP3 Data
+>1. ### Access HyP3 Data
 >
->    - Run the **Migrate & Subset HyP3 SBAS Stack (InSAR or Burst-InSAR)** notebook (3_Access_HyP3_Data.ipynb)
+>    - Run the **Access & Subset HyP3 SBAS Stack (InSAR or Burst-InSAR)** notebook (3_Access_HyP3_Data.ipynb)
 >    - How-to: [order interferograms from HyP3](https://storymaps.arcgis.com/stories/68a8a3253900411185ae9eb6bb5283d3)
 >
 >1. ### Load Data with MintPy

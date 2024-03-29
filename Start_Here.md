@@ -22,39 +22,39 @@ This Jupyter Book contains data recipes for loading ASF HyP3 INSAR_GAMMA and INS
 
 >1. ### Install the software environment needed to run the notebooks
 >
->    - Run the **Install Required Software with Conda** notebook (1_Software_Environment.ipynb)
+>    - Run the **Install Required Software with Conda** notebook ([1_Software_Environment.ipynb](1_Software_Environment.ipynb))
 >    - Rerun this step periodically. Updates to environment config files will not take effect unless you update or recreate your environment.
 >
 >1. ### Configure Climate Data Store Access (optional)
 >
->    - Run the **Set Up Climate Data Store Access** notebook (2_CDS_Access.ipynb)
+>    - Run the **Set Up Climate Data Store Access** notebook ([2_CDS_Access.ipynb](2_CDS_Access.ipynb))
 >    - Configure CDS access if you will perform tropospheric correction
 >    - If you do not wish to perform tropospheric correction, you must set the following config option: `mintpy.troposphericDelay.method = no`
 >
 >1. ### Access HyP3 Data
 >
->    - Run the **Access & Subset HyP3 SBAS Stack (InSAR or Burst-InSAR)** notebook (3_Access_HyP3_Data.ipynb)
+>    - Run the **Access & Subset HyP3 SBAS Stack (InSAR or Burst-InSAR)** notebook ([3_Access_HyP3_Data.ipynb](3_Access_HyP3_Data.ipynb))
 >    - How-to: [order interferograms from HyP3](https://storymaps.arcgis.com/stories/68a8a3253900411185ae9eb6bb5283d3)
 >
 >1. ### Load Data with MintPy
 >
->    - Run the **A. Load HyP3 SBAS Stack into MintPy** notebook (a_Load_HyP3_Data.ipynb)
+>    - Run the **A. Load HyP3 SBAS Stack into MintPy** notebook ([a_Load_HyP3_Data.ipynb](a_Load_HyP3_Data.ipynb))
 >    - Run once per SBAS stack
 >  
 >1. ### Configure a Time Series Analysis
 >
->    - Run the **B. Configure (or Reconfigure) MintPy Time Series Analysis** notebook (b_Update_Configuration.ipynb)
+>    - Run the **B. Configure (or Reconfigure) MintPy Time Series Analysis** notebook ([b_Update_Configuration.ipynb](b_Update_Configuration.ipynb))
 >    - Run anytime you wish to update the configuration of your time series
 >  
 >1. ### Perform the Time Series Analysis
 >
->    - Run the **C. Perform MintPy Time Series Analysis** notebook (c_MintPy_Time_Series.ipynb)
+>    - Run the **C. Perform MintPy Time Series Analysis** notebook ([c_MintPy_Time_Series.ipynb](c_MintPy_Time_Series.ipynb))
 >
 >1. ### Run Post-Time Series Workflows
 >
->    - Error Analysis (Error_Analysis.ipynb)
->    - Plotting (Plots.ipynb)
->    - Output Results to GeoTiff (Output_GeoTiff.ipynb)
+>    - Error Analysis ([Error_Analysis.ipynb](Error_Analysis.ipynb))
+>    - Plotting ([Plots.ipynb](Plots.ipynb))
+>    - Output Results to GeoTiff ([Output_GeoTiff.ipynb](Output_GeoTiff.ipynb))
 >  
 > 1. ### Update Your Configuration and Reprocess the Time Series
 >

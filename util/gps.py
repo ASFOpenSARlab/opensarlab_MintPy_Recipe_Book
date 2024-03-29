@@ -17,7 +17,9 @@ from mintpy.utils import utils0, readfile, utils
 import numpy as np
 import opensarlab_lib as osl
 from osgeo import gdal
+from rasterio.crs import CRS
 from rasterio.warp import transform_bounds, transform
+from shapely.geometry import Point, box
 
 def create_unr_gps_csv(mint_path: os.PathLike):
     mint_path = Path(mint_path)
@@ -59,26 +61,14 @@ def get_gps_stations(mint_path: Union[str, os.PathLike], filename='GPS_stations.
     Returns a list of GPS station names
     """
     mint_path = Path(mint_path)
+    
     # get the InSAR stack's corner coordinates
-    with h5py.File(f"{mint_path}/inputs/geometryGeo.h5", 'r') as f:
-
-        # For now, MintPy stores the original lat/lon corner coords after
-        # projecting to UTM. We should be able to remove this conversion in the future
-        lon_west = float(f.attrs['LON_REF1'])
-        lon_east = float(f.attrs['LON_REF2'])
-        lat_south = float(f.attrs['LAT_REF1'])
-        lat_north = float(f.attrs['LAT_REF3'])
-
-        utm = get_utm_zone(lat_north, lon_west)
-
-        lat_in, lon_in = utils0.latlon2utm(
-            np.array([lat_south, lat_north]), 
-            np.array([lon_west, lon_east]))
-
-        easting_west = lon_in[0]
-        easting_east = lon_in[1]
-        northing_south = lat_in[0]
-        northing_north = lat_in[1]
+    geo_path = mint_path / 'inputs/geometryGeo.h5'
+    atr = readfile.read_attribute(geo_path)
+    bbox = box(float(atr['LON_REF2']),
+               float(atr['LAT_REF3']),
+               float(atr['LON_REF1']),
+               float(atr['LAT_REF1']))
 
     # Get the start and end dates of the time series
     demErr_path = list(mint_path.glob("timeseries*_demErr.h5"))[0]
@@ -95,31 +85,31 @@ def get_gps_stations(mint_path: Union[str, os.PathLike], filename='GPS_stations.
         for row in list(csv_reader)[1:]:
             begin_date = datetime.strptime(row[7], '%Y-%m-%d')
             mod_date = datetime.strptime(row[9], '%Y-%m-%d')
-            lat = float(row[1])
-            lon = convert_long(float(row[2]))
+            gps_lat = float(row[1])
+            gps_lon = convert_long(float(row[2]))
+            gps_point = Point(gps_lon, gps_lat)
 
             # lat must be in UTM range
-            if lat < -80.0 or lat > 84.0:
+            if gps_lat < -80.0 or gps_lat > 84.0:
                 continue
 
-            # get station's UTM zone
-            gps_utm = get_utm_zone(lat, lon)
-
-            # Convert GPS coords to UTM
-            lat, lon = utils0.latlon2utm(np.array([lat]), np.array([lon]))
-            lat = lat[0]
-            lon = lon[0]
-
-            in_aoi = (northing_north <= lat <= northing_south) and (easting_east <= lon <= easting_west)
+            in_aoi = gps_point.within(bbox)
             in_date_range = ts_start >= begin_date and ts_end <= mod_date
 
             # filter GPS stations
-            if in_aoi and in_date_range and utm == gps_utm:
-                geo_path = f'{mint_path}/inputs/geometryGeo.h5'
-                atr = readfile.read_attribute(geo_path)
-                coord = utils.coordinate(atr, lookup_file=geo_path)
+            if in_aoi and in_date_range:
 
-                y, x = utils.coordinate.lalo2yx(coord, lat, lon)
+                # transform GPS coord to CRS of scene.
+                # Do not use utils0.latlon2utm as your data may fall across
+                # more than a single UTM zone, which is not handled. You can't pass an
+                # alternate UTM zone.
+                src_crs = CRS({'init': 'EPSG:4326'})
+                dst_crs = CRS({'init': f'EPSG:{atr["EPSG"]}'})
+                easting, northing = transform(src_crs, dst_crs, [gps_lon], [gps_lat])
+
+                coord = utils.coordinate(atr, lookup_file=geo_path)               
+                y, x = utils.coordinate.lalo2yx(coord, northing, easting)
+
                 vel, _ = readfile.read(f"{mint_path}/velocity.h5", datasetName='velocity')
                 yx_vel = (vel[y][x])
     

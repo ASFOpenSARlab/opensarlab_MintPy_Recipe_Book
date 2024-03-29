@@ -4,7 +4,7 @@ from pathlib import Path
 import re
 from typing import List, Union, Dict, Tuple
 
-import mintpy
+from mintpy.utils import readfile
 import numpy as np
 from osgeo import gdal
 
@@ -72,7 +72,7 @@ def get_mintpy_vmin_vmax(dataset_path: os.PathLike, bottom_percentile: float=0.0
 
     Returns: vmin, vmax values coveringt the data, centered at zero
     """
-    data, _ = mintpy.utils.readfile.read(dataset_path)
+    data, _ = readfile.read(dataset_path)
 
     vel_min = np.percentile(data, bottom_percentile) * 100
     vel_max = np.percentile(data, 1.0-bottom_percentile) * 100

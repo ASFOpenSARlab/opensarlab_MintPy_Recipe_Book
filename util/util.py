@@ -62,17 +62,22 @@ def get_no_data_val(pth):
         return 0
 
 
-def get_mintpy_vmin_vmax(dataset_path: os.PathLike, bottom_percentile: float=0.0) -> Tuple[float, float]:
+def get_mintpy_vmin_vmax(dataset_path: os.PathLike, mask_path: os.PathLike=None, bottom_percentile: float=0.0) -> Tuple[float, float]:
     """
     Takes: 
     dataset_path: path to a MintPy hdf5 dataset
+    mask_path: path to a MintPy hdf5 dataset containing a coherence mask (such as 'maskTempCoh.h5')
     bottom_percentile: lower end of the percentile you would like to use for vmin, vmax
                        The upper end of the percentile will be symetrical with the passed lower end.
                        Passing 0.05 as the bottom_percentile will result in 1.0 - 0.5 = 0.95 being used for the high end
 
-    Returns: vmin, vmax values coveringt the data, centered at zero
+    Returns: vmin, vmax values covering the data (or masked data), centered at zero
     """
     data, _ = readfile.read(dataset_path)
+
+    if mask_path:
+        mask, _ = readfile.read(mask_path)
+        data *= mask
 
     vel_min = np.percentile(data, bottom_percentile) * 100
     vel_max = np.percentile(data, 1.0-bottom_percentile) * 100

@@ -1,9 +1,9 @@
 format: jb-book
-root: intro
+root: README
 parts:
   - caption: Start Here
     chapters:
-      - file: Start_Here.md
+      - file: README.md
   - caption: Software Environment
     chapters:
       - file: 1_Software_Environment.ipynb

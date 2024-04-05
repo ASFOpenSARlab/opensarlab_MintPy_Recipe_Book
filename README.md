@@ -2,7 +2,7 @@
 
 # Start Here
 
-This Jupyter Book contains data recipes for loading ASF HyP3 INSAR_GAMMA and INSAR_ISCE_BURST stacks into MintPy and performing line-of-sight, displacement time series analyses. It also provides options for error analysis, plotting, and outputting data to GeoTiff.
+This Jupyter Book contains data recipes for loading ASF HyP3 INSAR_GAMMA and INSAR_ISCE_BURST stacks into MintPy and performing Small Baseline Subset (SBAS) line-of-sight, displacement time series analyses. It also provides options for error analysis, plotting, and outputting data to GeoTiff.
 
 ## MintPy
 

@@ -7,6 +7,7 @@ dependencies:
   - bokeh
   - boto3
   - cartopy=0.22.0=py39h40cae4c_0 # most recent version breaks matplotlib widget and opensarlab_lib AOI_selector
+  - contextily
   - dask
   - distributed==2023.4.1 # later versions require Python>=3.10
   - gdal
@@ -18,7 +19,6 @@ dependencies:
   - jupyterlab
   - ipywidgets
   - matplotlib-base
-  # - mintpy==1.5.1
   - numpy<1.24.0
   - opensarlab_lib
   - pandas
@@ -30,4 +30,4 @@ dependencies:
   - xarray
   - pip:
     - url-widget
-    - git+https://github.com/insarlab/MintPy.git@5683092
+    - git+https://github.com/insarlab/MintPy.git@44d5afd

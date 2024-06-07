@@ -1,12 +1,18 @@
 from collections import Counter
+from datetime import datetime
 import os
 from pathlib import Path
 import re
-from typing import List, Union, Dict, Tuple
+from typing import List, Union, Dict, Tuple, Optional
 
+import geopandas as gpd
 from mintpy.utils import readfile
 import numpy as np
-from osgeo import gdal
+from osgeo import gdal, ogr, osr
+gdal.UseExceptions()
+import rasterio
+from shapely.geometry import Polygon
+import shapely.wkt
 
 
 
@@ -79,11 +85,11 @@ def get_mintpy_vmin_vmax(dataset_path: os.PathLike, mask_path: os.PathLike=None,
         mask, _ = readfile.read(mask_path)
         data *= mask
 
-    vel_min = np.percentile(data, bottom_percentile) * 100
-    vel_max = np.percentile(data, 1.0-bottom_percentile) * 100
+    vel_min = np.nanpercentile(data, bottom_percentile) * 100
+    vel_max = np.nanpercentile(data, 1.0-bottom_percentile) * 100
     
-    vmin = -np.max([np.abs(vel_min), np.abs(vel_max)])
-    vmax = np.max([np.abs(vel_min), np.abs(vel_max)])  
+    vmin = -np.nanmax([np.abs(vel_min), np.abs(vel_max)])
+    vmax = np.nanmax([np.abs(vel_min), np.abs(vel_max)])  
     return (vmin, vmax)
 
 def get_recent_mintpy_config_path() -> Union[os.PathLike, None]:
@@ -109,3 +115,98 @@ def write_recent_mintpy_config_path(pth: Union[str, os.PathLike]):
     recent_mintpy_path = Path.cwd() / '.recent_mintpy_config'
     with open(recent_mintpy_path, 'w+') as f:
         f.write(str(pth))
+
+
+def get_epsg(geotiff_path: Union[str, os.PathLike]) -> str:
+    """
+    Takes: A string path or posix path to a GeoTiff
+
+    Returns: The string EPSG of the Geotiff
+    """
+    ds = gdal.Open(str(geotiff_path))
+    proj = ds.GetProjection()
+    srs = osr.SpatialReference()
+    srs.ImportFromWkt(proj)
+    srs.AutoIdentifyEPSG()
+    return srs.GetAuthorityCode(None)
+    
+
+def get_geotiff_bbox(geotiff_path: Union[str, os.PathLike], dst_epsg: str=None) -> Polygon:
+    with rasterio.open(geotiff_path) as dataset:
+        bounds = dataset.bounds
+        min_x, min_y = (bounds.left, bounds.bottom)
+        max_x, max_y = (bounds.right, bounds.top)
+        
+    if dst_epsg:
+        srs_crs = dataset.crs
+        transformer = Transformer.from_crs(srs_crs, f'EPSG:{str(dst_epsg)}', always_xy=True)
+        min_x, min_y = transformer.transform(bounds.left, bounds.bottom)
+        max_x, max_y = transformer.transform(bounds.right, bounds.top)
+
+    return Polygon([
+        (min_x, min_y),
+        (max_x, min_y),
+        (max_x, max_y),
+        (min_x, max_y),
+        (min_x, min_y)
+    ])
+
+
+def get_valid_wkt() -> Tuple[str, Polygon]:
+    """
+    Prompts user for WKT
+
+    Returns: WKT string, Shapely Polygon from WKT
+    """
+    while True:
+        try:
+            wkt = input("Please enter your WKT: ")
+            shapely_geom = shapely.wkt.loads(wkt)
+            
+            if not gpd.GeoSeries([shapely_geom]).is_valid[0]:
+                print('Invalid geometry detected. Please enter a valid WKT.')
+                continue
+            
+            return wkt, shapely_geom
+        except Exception as e:
+            print(f'Error: {e}. Please enter a valid WKT.')
+
+
+def check_within_bounds(wkt_shapely_geom: Polygon, gdf: gpd.GeoDataFrame) -> bool:
+    """
+    wkt_shapely_geom: A shapely Polygon describing a subset AOI
+    gdf: a geopandas.GeoDataFrame containing geometries for each dataset to subset to wkt_shapely_geom
+
+    returns: True if wkt_shapely_geom is contained within all geometries in the GeoDataFrame, else False
+    """
+    return all(wkt_shapely_geom.within(geom) for geom in gdf['geometry'])
+
+
+def save_shapefile(
+    ogr_geom: ogr.Geometry, 
+    epsg: Union[str, int], 
+    dst_path: Optional[Union[str, os.PathLike]]=Path.cwd()/f'shape_{datetime.strftime(datetime.now(), "%Y%m%dT%H%M%S")}.shp'
+):
+    """
+    Writes a shapefile from an ogr geometry in a given projection
+    
+    ogr_geom: An ogr geometry
+    epsg: the EPSG projection to apply to the shapefile
+    dst_path: (optional) shapefile destination path
+    """
+    epsg = int(epsg)
+    driver = ogr.GetDriverByName('Esri Shapefile')
+    ds = driver.CreateDataSource(str(dst_path))
+    srs = osr.SpatialReference()
+    srs.ImportFromEPSG(epsg)
+    layer = ds.CreateLayer('', srs, ogr.wkbPolygon)
+    defn = layer.GetLayerDefn()
+
+    feat = ogr.Feature(defn)
+    feat.SetGeometry(ogr_geom)
+    
+    layer.CreateFeature(feat)
+    feat = geom = None
+
+    ds = layer = feat = geom = None
+

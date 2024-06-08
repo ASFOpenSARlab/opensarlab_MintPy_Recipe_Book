@@ -7,6 +7,9 @@ assignees: ''
 
 ---
 
+**Notebook name**
+Which notebook contains the bug?
+
 **Describe the bug**
 A clear and concise description of what the bug is.
 

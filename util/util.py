@@ -186,7 +186,7 @@ def save_shapefile(
     ogr_geom: ogr.Geometry, 
     epsg: Union[str, int], 
     dst_path: Optional[Union[str, os.PathLike]]=Path.cwd()/f'shape_{datetime.strftime(datetime.now(), "%Y%m%dT%H%M%S")}.shp'
-):
+) -> None:
     """
     Writes a shapefile from an ogr geometry in a given projection
     

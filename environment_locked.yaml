@@ -361,7 +361,7 @@ dependencies:
       - lxml==5.2.2
       - markdown-it-py==3.0.0
       - mdurl==0.1.2
-      - mintpy==1.6.0.post5
+      - git+https://github.com/insarlab/MintPy.git@44d5afd
       - multiurl==0.3.1
       - pyaps3==0.3.2
       - pygrib==2.1.5

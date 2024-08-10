@@ -19,10 +19,12 @@ dependencies:
   - jupyterlab
   - ipywidgets
   - matplotlib-base
+  - networkx
   - numpy<1.24.0
   - opensarlab_lib
   - pandas
   - pip
+  - plotly
   - rasterio
   - rioxarray
   - scipy

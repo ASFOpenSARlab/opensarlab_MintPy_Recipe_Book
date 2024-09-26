@@ -4,12 +4,12 @@ channels:
 dependencies:
   - python==3.9
   - asf_search 
-  - bokeh
+  - bokeh==3.4.1 # 3.4.2 breaks distributed<=2023.4.1
   - boto3
-  - cartopy=0.22.0=py39h40cae4c_0 # most recent version breaks matplotlib widget and opensarlab_lib AOI_selector
+  - cartopy
   - contextily
   - dask
-  - distributed==2023.4.1 # later versions require Python>=3.10
+  - distributed<=2023.4.1 # later versions require Python>=3.10
   - gdal
   - geopandas
   - h5py
@@ -19,7 +19,8 @@ dependencies:
   - jupyterlab
   - ipywidgets
   - matplotlib-base
-  - numpy<1.24.0
+  - mintpy
+  - numpy
   - opensarlab_lib
   - pandas
   - pip
@@ -28,6 +29,3 @@ dependencies:
   - scipy
   - shapely
   - xarray
-  - pip:
-    - url-widget
-    - git+https://github.com/insarlab/MintPy.git@44d5afd

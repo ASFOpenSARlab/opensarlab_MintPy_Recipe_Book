@@ -172,7 +172,8 @@ def get_geotiff_bbox(geotiff_path: Union[str, os.PathLike], dst_epsg: str=None) 
 
 def possible_wgs84_wkt(wkt: str) -> bool:
     """
-    Indicates if a WKT Polygon falls within the range of valid WGS84, lat/lon coords
+    If WKT Polygon falls within the range of valid WGS84 coords,
+    prompts user to indicate whether the WKT is WGS84 or UTM
 
     Takes: Well-Known-Text polygon string
 

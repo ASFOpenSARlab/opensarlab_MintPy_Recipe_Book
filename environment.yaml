@@ -21,11 +21,13 @@ dependencies:
   - matplotlib-base
   - mintpy
   - numpy
-  - opensarlab_lib
   - pandas
   - pip
+  - pyaps3==0.3.5 #0.3.6 CDS downloads fail from MintPy
   - rasterio
   - rioxarray
   - scipy
   - shapely
   - xarray
+  - pip:
+    - opensarlab_lib

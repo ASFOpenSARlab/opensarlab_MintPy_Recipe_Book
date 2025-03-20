@@ -10,10 +10,11 @@ from mintpy.utils import readfile
 import numpy as np
 from osgeo import gdal, ogr, osr
 gdal.UseExceptions()
+from pyproj import Transformer
 import rasterio
 from shapely.geometry import Polygon
+from shapely.ops import transform
 import shapely.wkt
-
 
 
 def get_projection(img_path: Union[Path, str]) -> Union[str, None]:
@@ -52,13 +53,23 @@ def get_projections(tiff_paths: List[Union[os.PathLike, str]]) -> Dict:
     return epsgs
 
 
-def get_res(tiff):
+def get_res(tiff: os.PathLike) -> float:
+    """
+    Takes: path to a GeoTiff
+
+    Returns: The GeoTiff's resolution
+    """
     tiff = str(tiff)
     f =  gdal.Open(tiff)
     return f.GetGeoTransform()[1] 
 
 
-def get_no_data_val(pth):
+def get_no_data_val(pth: os.PathLike) -> Union[None, float, int]:
+    """
+    Takes: path to a GeoTiff
+
+    Returns: The GeoTiff's no-data value
+    """
     pth = str(pth)
     f = gdal.Open(str(pth))
     if f.GetRasterBand(1).DataType > 5:
@@ -75,7 +86,7 @@ def get_mintpy_vmin_vmax(dataset_path: os.PathLike, mask_path: os.PathLike=None,
     mask_path: path to a MintPy hdf5 dataset containing a coherence mask (such as 'maskTempCoh.h5')
     bottom_percentile: lower end of the percentile you would like to use for vmin, vmax
                        The upper end of the percentile will be symetrical with the passed lower end.
-                       Passing 0.05 as the bottom_percentile will result in 1.0 - 0.5 = 0.95 being used for the high end
+                       Passing 0.05 as the bottom_percentile will result in 1.0 - 0.05 = 0.95 being used for the high end
 
     Returns: vmin, vmax values covering the data (or masked data), centered at zero
     """
@@ -132,6 +143,13 @@ def get_epsg(geotiff_path: Union[str, os.PathLike]) -> str:
     
 
 def get_geotiff_bbox(geotiff_path: Union[str, os.PathLike], dst_epsg: str=None) -> Polygon:
+    """
+    Takes:
+    geotiff_path: path to a GeoTiff
+    dst_epsg: optional EPSG for reprojection
+
+    Returns: The GeoTiffs bounding box as a shapely.geometry.Polygon
+    """
     with rasterio.open(geotiff_path) as dataset:
         bounds = dataset.bounds
         min_x, min_y = (bounds.left, bounds.bottom)
@@ -152,15 +170,60 @@ def get_geotiff_bbox(geotiff_path: Union[str, os.PathLike], dst_epsg: str=None) 
     ])
 
 
+def possible_wgs84_wkt(wkt: str) -> bool:
+    """
+    If WKT Polygon falls within the range of valid WGS84 coords,
+    prompts user to indicate whether the WKT is WGS84 or UTM
+
+    Takes: Well-Known-Text polygon string
+
+    Returns: True if the WKT could be WGS84 else False
+    """
+    lon_regex = r"(?:\(|,)(-?\d{1,6}\.?\d{0,6})"
+    lat_regex = r"(?<=\s)-?\d{,6}.?\d{,6}"
+    
+    lon_results = re.findall(lon_regex, wkt)
+    lon_results = [float(n) for n in lon_results]
+    lat_results = re.findall(lat_regex, wkt)
+    lat_results = [float(n) for n in lat_results]
+    if -180.0 <= np.min(lon_results) and np.max(lon_results) <= 180.0 \
+    and -90.0 <= np.min(lat_results) and np.max(lat_results) <= 90.0:
+        while True:
+            print("Detected possible WGS84 (lat/lon) coordinates")
+            wgs84 = input("Are these lat/lon coordinates? (y or n)")
+            if wgs84 in ["y", "n"]:
+                wgs84 = True if wgs84 == 'y' else False
+                return wgs84
+    else:
+        return False
+
+
+def project_wkt_polygon(wkt_polygon: str, source_epsg: Union[int, str], target_epsg: Union[int, str]) -> str:
+    """
+    Takes: 
+    wkt_polygon: A Well-Known-Text POLYGON string
+    source_epsg: wkt_polygon's EPSG
+    target_epsg: the target EPSG for projection
+
+    Returns: A Well-Known-Text string in the target EPSG
+    """
+    polygon = shapely.wkt.loads(wkt_polygon)
+    transformer = Transformer.from_crs(f"EPSG:{source_epsg}", f"EPSG:{target_epsg}", always_xy=True)
+    transformed_polygon = transform(transformer.transform, polygon)
+    return transformed_polygon.wkt
+
+
 def get_valid_wkt() -> Tuple[str, Polygon]:
     """
     Prompts user for WKT
 
     Returns: WKT string, Shapely Polygon from WKT
     """
+    
     while True:
         try:
             wkt = input("Please enter your WKT: ")
+
             shapely_geom = shapely.wkt.loads(wkt)
             
             if not gpd.GeoSeries([shapely_geom]).is_valid[0]:
@@ -178,7 +241,7 @@ def check_within_bounds(wkt_shapely_geom: Polygon, gdf: gpd.GeoDataFrame) -> boo
     gdf: a geopandas.GeoDataFrame containing geometries for each dataset to subset to wkt_shapely_geom
 
     returns: True if wkt_shapely_geom is contained within all geometries in the GeoDataFrame, else False
-    """
+    """   
     return all(wkt_shapely_geom.within(geom) for geom in gdf['geometry'])
 
 

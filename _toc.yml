@@ -10,6 +10,7 @@ parts:
   - caption: Data Access
     chapters:
       - file: 2_CDS_Access.ipynb
+      - file: Multi-Burst_Seasonal_SBAS_Stack.ipynb
       - file: 3_Access_HyP3_Data.ipynb
   - caption: MintPy Time Series
     chapters:

@@ -76,6 +76,11 @@ class ASFSBASStack:
             self._sbas_stack = self.build_sbas_stack()
             # self.needs_sbas_stack_update = False
 
+        # TODO: Issue with asf_search.geo_search. When season start date is later
+        # than season end date (start: 10-5, end: 3-5), early valid results are dropped.
+        # For example, if the stack start date is in January 2021 and the season is 10/5-3/5, no 
+        # January, February, or March 2021 date are included, when they should be.
+        # Temp workaround: set start date to 12-31 of the previous year.
         if not self._geo_ref_scene_id and self._burst_ids and self._burst_swaths:
             self._is_multi_burst = True
             opts = {
@@ -87,8 +92,8 @@ class ASFSBASStack:
                 'polarization': 'VV'
             }
             results = asf.geo_search(intersectsWith=None, **opts)
-            
             self._geo_ref_scene_id = sorted([r.properties["sceneName"] for r in results])[0]
+            
             self._multi_burst_stacks = list()
             if self._end:
                 self._sbas_stack = self.build_sbas_stack()
@@ -456,6 +461,7 @@ class ASFSBASStack:
                     'temporalBaseline': self.temporal_baseline,
                     'repeatPassFrequency': self.repeat_pass_freq,
                     'overlapThreshold': self.overlap_threshold,
+                    'bridgeTargetDate': self.bridge_target_date,
                 }
                 self._multi_burst_stacks.append(ASFSBASStack(**args))        
 

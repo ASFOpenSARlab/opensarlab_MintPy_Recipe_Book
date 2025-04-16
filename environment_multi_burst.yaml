@@ -1,0 +1,22 @@
+name: hyp3-multi-burst
+channels:
+  - conda-forge
+dependencies:
+  - asf_search 
+  - gdal
+  - geopandas
+  - hyp3_sdk
+  - ipympl
+  - ipyfilechooser
+  - ipykernel
+  - ipywidgets
+  - matplotlib-base
+  - nbformat>=4.2.0
+  - networkx
+  - numpy
+  - pandas
+  - pip
+  - plotly
+  - rasterio
+  - rioxarray
+  - shapely

@@ -1,3 +1,5 @@
+>This repository is for internal CBI use. It looks to allow for more flexibility in updating the recipe books from the OpenSARLab project.
+
 <img src="ASF_logo.svg" alt="ASF logo" width="10%"/>
 
 # Start Here

@@ -364,4 +364,4 @@ dependencies:
       - webencodings==0.5.1
       - websocket-client==1.8.0
       - widgetsnbextension==4.0.10
-      - git+https://github.com/insarlab/MintPy.git@4bbca8c # Install from commit until
+      - git+https://github.com/insarlab/MintPy.git@4bbca8c # Install from commit until release > 1.6.1

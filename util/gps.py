@@ -24,7 +24,7 @@ from shapely.geometry import Point, box
 def create_unr_gps_csv(mint_path: os.PathLike):
     mint_path = Path(mint_path)
     with osl.work_dir(mint_path):
-        url = 'http://geodesy.unr.edu/NGLStationPages/DataHoldings.txt'
+        url = 'https://geodesy.unr.edu/NGLStationPages/DataHoldings.txt'
         response = urllib.request.urlopen(url, timeout=5)
         content = response.read()
         rows = content.decode('utf-8').splitlines()

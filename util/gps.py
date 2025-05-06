@@ -24,7 +24,7 @@ from shapely.geometry import Point, box
 def create_unr_gps_csv(mint_path: os.PathLike):
     mint_path = Path(mint_path)
     with osl.work_dir(mint_path):
-        url = 'http://geodesy.unr.edu/NGLStationPages/DataHoldings.txt'
+        url = 'https://geodesy.unr.edu/NGLStationPages/DataHoldings.txt'
         response = urllib.request.urlopen(url, timeout=5)
         content = response.read()
         rows = content.decode('utf-8').splitlines()
@@ -53,7 +53,7 @@ def get_utm_zone(lat: float, lon: float):
 def get_gps_stations(mint_path: Union[str, os.PathLike], filename='GPS_stations.csv') -> List[str]:
     """
     Takes a path to a MintPy directory and the filename of a GPS station CSV stored within it.
-    The CSV is created from http://geodesy.unr.edu/NGLStationPages/DataHoldings.txt
+    The CSV is created from https://geodesy.unr.edu/NGLStationPages/DataHoldings.txt
 
     Filters the spreadsheet for GPS stations within the spatial and temporal dimensions
     of the time series. Stations on no-data pixels are removed.

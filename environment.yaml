@@ -15,6 +15,7 @@ dependencies:
   - h5py
   - hyp3_sdk
   - ipyfilechooser
+  - libgdal-hdf5
   - numpy
   - pandas
   - pip

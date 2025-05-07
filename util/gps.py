@@ -20,6 +20,8 @@ from osgeo import gdal
 from rasterio.crs import CRS
 from rasterio.warp import transform_bounds, transform
 from shapely.geometry import Point, box
+import utm
+
 
 def create_unr_gps_csv(mint_path: os.PathLike):
     mint_path = Path(mint_path)
@@ -87,28 +89,28 @@ def get_gps_stations(mint_path: Union[str, os.PathLike], filename='GPS_stations.
             mod_date = datetime.strptime(row[9], '%Y-%m-%d')
             gps_lat = float(row[1])
             gps_lon = convert_long(float(row[2]))
+            
+            if "UTM_ZONE" in atr.keys():
+                try:
+                    gps_lat, gps_lon = utils.latlon2utm(atr, gps_lat, gps_lon)
+                except utm.OutOfRangeError:
+                    # latitude must be between 80 deg S and 84 deg N
+                    continue
+
             gps_point = Point(gps_lon, gps_lat)
 
-            # lat must be in UTM range
-            if gps_lat < -80.0 or gps_lat > 84.0:
+            # lat must be between 80 deg S and 84 deg N
+            if "UTM_ZONE" not in atr.keys() and (gps_lat < -80.0 or gps_lat > 84.0):
                 continue
 
             in_aoi = gps_point.within(bbox)
             in_date_range = ts_start >= begin_date and ts_end <= mod_date
 
+
             # filter GPS stations
             if in_aoi and in_date_range:
-
-                # transform GPS coord to CRS of scene.
-                # Do not use utils0.latlon2utm as your data may fall across
-                # more than a single UTM zone, which is not handled. You can't pass an
-                # alternate UTM zone.
-                src_crs = CRS({'init': 'EPSG:4326'})
-                dst_crs = CRS({'init': f'EPSG:{atr["EPSG"]}'})
-                easting, northing = transform(src_crs, dst_crs, [gps_lon], [gps_lat])
-
                 coord = utils.coordinate(atr, lookup_file=geo_path)               
-                y, x = utils.coordinate.lalo2yx(coord, northing, easting)
+                y, x = utils.coordinate.lalo2yx(coord, gps_lat, gps_lon)
 
                 vel, _ = readfile.read(f"{mint_path}/velocity.h5", datasetName='velocity')
                 yx_vel = (vel[y][x])
@@ -121,7 +123,7 @@ def get_gps_stations(mint_path: Union[str, os.PathLike], filename='GPS_stations.
     gps = len(gps_stations) > 1
     if not gps:
         print("There were fewer than 2 GPS sites found in your AOI")
-        return None
+        return gps_stations
     else:
         return gps_stations
 

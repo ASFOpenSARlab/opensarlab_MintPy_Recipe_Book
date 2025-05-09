@@ -119,11 +119,9 @@ def get_gps_stations(mint_path: Union[str, os.PathLike], filename='GPS_stations.
                 if yx_vel not in [0.0, np.nan]:
                     gps_stations.append(row[0].strip())
     
-    # There must be at least 2 GPS stations in your AOI
-    gps = len(gps_stations) > 1
-    if not gps:
+    if len(gps_stations) < 2:
         print("There were fewer than 2 GPS sites found in your AOI")
-        return gps_stations
+        return None
     else:
         return gps_stations
 

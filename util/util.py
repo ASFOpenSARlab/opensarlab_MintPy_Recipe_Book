@@ -31,7 +31,7 @@ def get_projection(img_path: Union[Path, str]) -> Union[str, None]:
     except TypeError:
         raise FileNotFoundError
 
-    regex = 'ID\["EPSG",[0-9]{4,5}\]\]$'
+    regex = r'ID\["EPSG",[0-9]{4,5}\]\]$'
     results = re.search(regex, info)
     if results:
         return results.group(0).split(',')[1][:-2]
@@ -222,7 +222,7 @@ def get_valid_wkt() -> Tuple[str, Polygon]:
     
     while True:
         try:
-            wkt = input("Please enter your WKT: ")
+            wkt = input('Please enter your WKT (e.g. "POLYGON((-148.4241 64.6077,-146.9478 64.6077,-146.9478 65.1052,-148.4241 65.1052,-148.4241 64.6077))": ')
 
             shapely_geom = shapely.wkt.loads(wkt)
             

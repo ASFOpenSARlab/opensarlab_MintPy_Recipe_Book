@@ -112,7 +112,7 @@ def get_mintpy_vmin_vmax calls in Plot.ipynb"(
         darr = da.from_array(ds, chunks=chunks)
 
         # Avoids loading large datasets
-        # Selects 20 evenly spaced time steps if >= 40 time steps in dataset
+        # Selects stack_depth_limit evenly spaced time steps
         if len(ds.shape) > 2 and ds.shape[0] >= stack_depth_limit * 2:
             stride = ds.shape[0] // stack_depth_limit
             darr = darr[::stride, :, :]

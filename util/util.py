@@ -5,7 +5,9 @@ from pathlib import Path
 import re
 from typing import List, Union, Dict, Tuple, Optional
 
+import dask.array as da
 import geopandas as gpd
+import h5py
 from mintpy.utils import readfile
 import numpy as np
 from osgeo import gdal, ogr, osr
@@ -79,10 +81,16 @@ def get_no_data_val(pth: os.PathLike) -> Union[None, float, int]:
         return 0
 
 
-def get_mintpy_vmin_vmax(dataset_path: os.PathLike, mask_path: os.PathLike=None, bottom_percentile: float=0.0) -> Tuple[float, float]:
+def get_mintpy_vmin_vmax(
+    dataset_path: os.PathLike, 
+    dataset_name: str, 
+    mask_path: os.PathLike=None,
+    stack_depth_limit: int=None,
+    bottom_percentile: float=0.0) -> Tuple[float, float]:
     """
     Takes: 
     dataset_path: path to a MintPy hdf5 dataset
+    dataset_name: name of the dataset to examine in the hdf5
     mask_path: path to a MintPy hdf5 dataset containing a coherence mask (such as 'maskTempCoh.h5')
     bottom_percentile: lower end of the percentile you would like to use for vmin, vmax
                        The upper end of the percentile will be symetrical with the passed lower end.
@@ -90,18 +98,35 @@ def get_mintpy_vmin_vmax(dataset_path: os.PathLike, mask_path: os.PathLike=None,
 
     Returns: vmin, vmax values covering the data (or masked data), centered at zero
     """
-    data, _ = readfile.read(dataset_path)
+    q = [bottom_percentile, (1-bottom_percentile)]
 
-    if mask_path:
-        mask, _ = readfile.read(mask_path)
-        data *= mask
+    with h5py.File(dataset_path, 'r') as f:
+        ds = f[dataset_name]
+        if len(ds.shape) > 2:
+            chunks = (1, 2048, 2048)
+            axis=(0, 1, 2)
+        else:
+            chunks = (2048, 2048)
+            axis=(0, 1)
+        darr = da.from_array(ds, chunks=chunks)
 
-    vel_min = np.nanpercentile(data, bottom_percentile) * 100
-    vel_max = np.nanpercentile(data, 1.0-bottom_percentile) * 100
-    
-    vmin = -np.nanmax([np.abs(vel_min), np.abs(vel_max)])
-    vmax = np.nanmax([np.abs(vel_min), np.abs(vel_max)])  
-    return (vmin, vmax)
+        # Avoids loading large datasets
+        # Selects 20 evenly spaced time steps if >= 40 time steps in dataset
+        if len(ds.shape) > 2 and ds.shape[0] >= stack_depth_limit * 2:
+            stride = ds.shape[0] // stack_depth_limit
+            darr = darr[::stride, :, :]
+
+        if mask_path:
+            with h5py.File(mask_path, 'r') as m:
+                mask = m["mask"]
+                darr *= mask
+                min, max = da.nanpercentile(darr, q, axis=axis).compute()
+        else:
+            min, max = da.nanpercentile(darr, q, axis=axis).compute()
+
+    vmax = np.nanmax([np.abs(min), np.abs(max)])
+    return (vmax*-1, vmax)
+
 
 def get_recent_mintpy_config_path() -> Union[os.PathLike, None]:
     """

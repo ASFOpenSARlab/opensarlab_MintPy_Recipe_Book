@@ -81,7 +81,7 @@ def get_no_data_val(pth: os.PathLike) -> Union[None, float, int]:
         return 0
 
 
-def get_mintpy_vmin_vmax(
+def get_mintpy_vmin_vmax calls in Plot.ipynb"(
     dataset_path: os.PathLike, 
     dataset_name: str, 
     mask_path: os.PathLike=None,

@@ -92,6 +92,7 @@ def get_mintpy_vmin_vmax calls in Plot.ipynb"(
     dataset_path: path to a MintPy hdf5 dataset
     dataset_name: name of the dataset to examine in the hdf5
     mask_path: path to a MintPy hdf5 dataset containing a coherence mask (such as 'maskTempCoh.h5')
+    stack_depth_limit: Max number of images in stack to examine
     bottom_percentile: lower end of the percentile you would like to use for vmin, vmax
                        The upper end of the percentile will be symetrical with the passed lower end.
                        Passing 0.05 as the bottom_percentile will result in 1.0 - 0.05 = 0.95 being used for the high end

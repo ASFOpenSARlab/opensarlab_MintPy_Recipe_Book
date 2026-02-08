@@ -29,6 +29,7 @@ dependencies:
   - ipympl
   - ipykernel
   - ipython
+  - ipyleaflet
   - mintpy
   - pip:
     - opensarlab_lib

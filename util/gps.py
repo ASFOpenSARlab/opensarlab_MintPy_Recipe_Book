@@ -52,7 +52,8 @@ def get_utm_zone(lat: float, lon: float):
     zone = np.floor((lon + 180) / 6) + 1
     return zone
 
-def get_gps_stations(mint_path: Union[str, os.PathLike], filename='GPS_stations.csv') -> List[str]:
+def get_gps_stations(
+    mint_path: Union[str, os.PathLike], filename='GPS_stations.csv') -> List[str]:
     """
     Takes a path to a MintPy directory and the filename of a GPS station CSV stored within it.
     The CSV is created from https://geodesy.unr.edu/NGLStationPages/DataHoldings.txt
@@ -87,6 +88,7 @@ def get_gps_stations(mint_path: Union[str, os.PathLike], filename='GPS_stations.
         for row in list(csv_reader)[1:]:
             begin_date = datetime.strptime(row[7], '%Y-%m-%d')
             mod_date = datetime.strptime(row[9], '%Y-%m-%d')
+            num_sol = int(row[10])
             gps_lat = float(row[1])
             gps_lon = convert_long(float(row[2]))
             
@@ -108,7 +110,7 @@ def get_gps_stations(mint_path: Union[str, os.PathLike], filename='GPS_stations.
 
 
             # filter GPS stations
-            if in_aoi and in_date_range:
+            if in_aoi and in_date_range and num_sol >= 50:
                 coord = utils.coordinate(atr, lookup_file=geo_path)               
                 y, x = utils.coordinate.lalo2yx(coord, gps_lat, gps_lon)
 
@@ -120,7 +122,7 @@ def get_gps_stations(mint_path: Union[str, os.PathLike], filename='GPS_stations.
                     gps_stations.append(row[0].strip())
     
     if len(gps_stations) < 2:
-        print("There were fewer than 2 GPS sites found in your AOI")
+        print(f"There were fewer than 2 GPS sites found in your AOI, within your temporal range, and with >= 50 solutions.")
         return None
     else:
         return gps_stations

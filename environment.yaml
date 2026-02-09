@@ -32,5 +32,5 @@ dependencies:
   - ipyleaflet
   - pip:
     - opensarlab_lib 
-    - git+https://github.com/insarlab/MintPy.git@ea0f200
+    - git+https://github.com/ASFOpenSARlab/MintPy.git@edef355 # Fork contains dem error bug fix where estimate_dem_error may return a sequence instead of scalar
     - git+https://github.com/insarlab/PyAPS.git@6b01c39 #0.3.6 CDS downloads fail from MintPy, install from source until 0.3.7

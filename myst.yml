@@ -1,0 +1,47 @@
+# See docs at: https://mystmd.org/guide/frontmatter
+version: 1
+extends:
+  - https://raw.githubusercontent.com/ASFOpenSARlab/asf-myst-config/main/asf_myst.yml
+project:
+  title: ASF MintPy Cookbook
+  github: https://github.com/ASFOpenSARlab/opensarlab_MintPy_Recipe_Book
+  authors:
+    - name: The Alaska Satellite Facility
+  license: BSD-3-Clause
+  copyright: '2026'
+  toc:
+    - file: README.md
+    - title: Software Environment
+      children:
+      - file: 1_Software_Environment.ipynb
+    - title: Data Access
+      children:
+      - file: 2_CDS_Access.ipynb
+      - file: 3_Access_HyP3_Data.ipynb
+    - title: MintPy Time Series
+      children:
+      - file: a_Load_HyP3_Data.ipynb
+      - file: b_Update_Configuration.ipynb
+      - file: c_MintPy_Time_Series.ipynb
+    - title: Extra Workflows
+      children:
+      - file: Error_Analysis.ipynb
+      - file: Plots.ipynb
+      - file: Output_GeoTiff.ipynb
+    - title: Resources
+      children:
+      - url: https://hyp3-docs.asf.alaska.edu
+        title: ASF HyP3 On-Demand Processing
+      - url: https://search.asf.alaska.edu
+        title: ASF Vertex, Data Search
+      - url: https://storymaps.arcgis.com/stories/68a8a3253900411185ae9eb6bb5283d3
+        title: InSAR On Demand! StoryMap
+      - url: https://hyp3-docs.asf.alaska.edu/guides/burst_insar_product_guide/
+        title: HyP3 Sentinel-1 INSAR_ISCE_BURST Product Guide
+      - url: https://hyp3-docs.asf.alaska.edu/guides/insar_product_guide/
+        title: HyP3 Sentinel-1 INSAR_GAMMA Product Guide
+      - url: https://mintpy.readthedocs.io/en/latest/
+        title: MintPy Documentation
+      - url: https://github.com/insarlab/MintPy
+        title: MintPy GitHub Repository
+      

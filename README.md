@@ -1,6 +1,7 @@
-<img src="ASF_logo.svg" alt="ASF logo" width="10%"/>
-
 # Start Here
+
+![ASF Logo](ASF_logo.svg)
+
 
 This Jupyter Book contains data recipes for loading ASF HyP3 INSAR_GAMMA and INSAR_ISCE_BURST stacks into MintPy and performing Small Baseline Subset (SBAS) line-of-sight, displacement time series analyses. It also provides options for error analysis, plotting, and outputting data to GeoTiff.
 
@@ -9,16 +10,6 @@ This Jupyter Book contains data recipes for loading ASF HyP3 INSAR_GAMMA and INS
 >The Miami INsar Time-series software in PYthon (MintPy as /mɪnt paɪ/) is an open-source package for Interferometric Synthetic Aperture Radar (InSAR) time series analysis. It reads the stack of interferograms (coregistered and unwrapped) in ISCE, ARIA, FRInGE, HyP3, GMTSAR, SNAP, GAMMA or ROI_PAC format, and produces three dimensional (2D in space and 1D in time) ground surface displacement in line-of-sight direction
 >
 >*https://github.com/insarlab/MintPy*
-
-<br>
-<div class="alert alert-success">
-<font face="Calibri" size="5"><b><font color='rgba(200,0,0,0.2)'> <u>Jupyter Book Navigation</u></font></b></font>
-
-<font face="Calibri" size="3">For an improved Jupyter Book Experience in JupyterLab, try installing the [jupyterlab-jupyterbook-navigation](https://pypi.org/project/jupyterlab-jupyterbook-navigation/) JupyterLab extension.
-</font>
-</div>
-
-<img src="jlab_toc.gif" alt="jupyterlab-jupyterbook-navigation demo gif]" width="75%"/>
 
 ## How To Use This Jupyter Book
 
@@ -52,7 +43,7 @@ This Jupyter Book contains data recipes for loading ASF HyP3 INSAR_GAMMA and INS
 >
 >    - Run the **C. Perform MintPy Time Series Analysis** notebook ([c_MintPy_Time_Series.ipynb](c_MintPy_Time_Series.ipynb))
 >
->1. ### Run Post-Time Series Workflows
+>1. ### Run Extra Workflows
 >
 >    - Error Analysis ([Error_Analysis.ipynb](Error_Analysis.ipynb))
 >    - Plotting ([Plots.ipynb](Plots.ipynb))
@@ -74,7 +65,7 @@ As you run steps in the time series script, `smallbaselineapp.py`, additional HD
 - If you have loaded your times series from a bunch of large GeoTiffs, you can delete them to conserve space after loading your data.
 - You will be able to reconfigure and rerun your time series without needing to reload your data.
 - If you reconfigure your time series, you must rerun the time series for the updates to take effect.
-- Once you have run your time series, until you wish to reconfigure it, you can rerun any data recipes in the `Extras` section without having to rerun the time series. 
+- Once you have run your time series, until you wish to reconfigure it, you can rerun any data recipes in the `Extra Workflows` section without having to rerun the time series. 
 
 
 

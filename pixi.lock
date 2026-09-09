@@ -1,14 +1,25 @@
 version: 7
 platforms:
 - name: linux-64
+  virtual-packages:
+  - __unix=0=0
+  - __linux=4.18
+  - __glibc=2.28
+  - __archspec=0=x86_64
 - name: osx-64
+  virtual-packages:
+  - __unix=0=0
+  - __osx=13.0
+  - __archspec=0=x86_64
 - name: osx-arm64
+  virtual-packages:
+  - __unix=0=0
+  - __osx=13.0
+  - __archspec=0=m1
 environments:
   default:
     channels:
     - url: https://conda.anaconda.org/conda-forge/
-    indexes:
-    - https://pypi.org/simple
     packages:
       linux-64:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/_openmp_mutex-4.5-20_gnu.conda
@@ -443,7 +454,6 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/yarl-1.24.5-pyh7db6752_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/zict-3.0.0-pyhd8ed1ab_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/zipp-4.1.0-pyhcf101f3_0.conda
-      - pypi: https://files.pythonhosted.org/packages/92/33/e1a7393ae6ea443b2bd96073ed040322ef5485815cc527ea7402fb1fab5a/opensarlab_lib-0.0.14-py3-none-any.whl
       osx-64:
       - conda: https://conda.anaconda.org/conda-forge/noarch/_python_abi3_support-1.0-hd8ed1ab_3.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/affine-3.0.1-pyhecae5ae_0.conda
@@ -861,7 +871,6 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-64/zlib-1.3.2-hbb4bfdb_3.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/zlib-ng-2.3.3-h646e873_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/zstd-1.5.7-hbc1a06c_7.conda
-      - pypi: https://files.pythonhosted.org/packages/92/33/e1a7393ae6ea443b2bd96073ed040322ef5485815cc527ea7402fb1fab5a/opensarlab_lib-0.0.14-py3-none-any.whl
       osx-arm64:
       - conda: https://conda.anaconda.org/conda-forge/noarch/_python_abi3_support-1.0-hd8ed1ab_3.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/affine-3.0.1-pyhecae5ae_0.conda
@@ -1279,7 +1288,6 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/zlib-1.3.2-h8088a28_3.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/zlib-ng-2.3.3-h31dac16_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/zstd-1.5.7-hf451053_7.conda
-      - pypi: https://files.pythonhosted.org/packages/92/33/e1a7393ae6ea443b2bd96073ed040322ef5485815cc527ea7402fb1fab5a/opensarlab_lib-0.0.14-py3-none-any.whl
 packages:
 - conda: https://conda.anaconda.org/conda-forge/linux-64/_openmp_mutex-4.5-20_gnu.conda
   build_number: 20
@@ -15411,25 +15419,3 @@ packages:
     - zstd >=1.5.7,<1.6.0a0
   size: 433687
   timestamp: 1786599629846
-- pypi: https://files.pythonhosted.org/packages/92/33/e1a7393ae6ea443b2bd96073ed040322ef5485815cc527ea7402fb1fab5a/opensarlab_lib-0.0.14-py3-none-any.whl
-  name: opensarlab-lib
-  version: 0.0.14
-  sha256: 015c2a2c100089fff7cb585fe95b5dc6e5d9c4f392e33b3b7ddd3299e8a1e9df
-  requires_dist:
-  - asf-search
-  - cartopy
-  - contextily
-  - gdal
-  - hyp3-sdk
-  - ipywidgets
-  - ipython
-  - matplotlib
-  - numpy
-  - pandas
-  - pyproj
-  - requests
-  - shapely
-  - pyshp
-  - pytest ; extra == 'dev'
-  - pytest-cov ; extra == 'dev'
-  requires_python: '>=3.9'

@@ -17,7 +17,8 @@ import rasterio
 from shapely.geometry import Polygon
 from shapely.ops import transform
 import shapely.wkt
-
+import ipywidgets as widgets
+from ipywidgets import Layout
 
 def get_projection(img_path: Union[Path, str]) -> Union[str, None]:
     """
@@ -299,3 +300,16 @@ def save_shapefile(
 
     ds = layer = feat = geom = None
 
+def select_parameter(container: Union[List, Set, Dict],
+                     description: Optional[str] = "",
+                     min_width: Optional[str] = "800px") -> widgets.RadioButtons:
+    """
+    Takes: a container, an optional widget description, and an optional minimum widget width
+    Returns: a widgets.RadioButtons object containing the objects in the container
+    """
+    return widgets.RadioButtons(
+        options=container,
+        description=description,
+        disabled=False,
+        layout=Layout(min_width=min_width)
+    )

@@ -20,6 +20,8 @@ environments:
   default:
     channels:
     - url: https://conda.anaconda.org/conda-forge/
+    indexes:
+    - https://pypi.org/simple
     packages:
       linux-64:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/_openmp_mutex-4.5-20_gnu.conda
@@ -454,6 +456,9 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/yarl-1.24.5-pyh7db6752_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/zict-3.0.0-pyhd8ed1ab_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/zipp-4.1.0-pyhcf101f3_0.conda
+      - pypi: https://files.pythonhosted.org/packages/41/ff/9f255212c0b3636fb26edd15c0084c4855c8328843c0feeba06ecda395b7/jupyter_server_globbing-0.1.6-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/4e/f3/3803e7daff1ff25987835c439dc66a9ef1c7936cb302432975edbceb6d51/jb_toc_frontend-2.0.1-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/84/d2/5f066e0ee9b3de4687ca12ed75b0900e105aa8ca541fe6cb9c3c2892791d/jb_toc-2.0.1-py3-none-any.whl
       osx-64:
       - conda: https://conda.anaconda.org/conda-forge/noarch/_python_abi3_support-1.0-hd8ed1ab_3.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/affine-3.0.1-pyhecae5ae_0.conda
@@ -871,6 +876,9 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-64/zlib-1.3.2-hbb4bfdb_3.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/zlib-ng-2.3.3-h646e873_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/zstd-1.5.7-hbc1a06c_7.conda
+      - pypi: https://files.pythonhosted.org/packages/41/ff/9f255212c0b3636fb26edd15c0084c4855c8328843c0feeba06ecda395b7/jupyter_server_globbing-0.1.6-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/4e/f3/3803e7daff1ff25987835c439dc66a9ef1c7936cb302432975edbceb6d51/jb_toc_frontend-2.0.1-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/84/d2/5f066e0ee9b3de4687ca12ed75b0900e105aa8ca541fe6cb9c3c2892791d/jb_toc-2.0.1-py3-none-any.whl
       osx-arm64:
       - conda: https://conda.anaconda.org/conda-forge/noarch/_python_abi3_support-1.0-hd8ed1ab_3.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/affine-3.0.1-pyhecae5ae_0.conda
@@ -1288,6 +1296,9 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/zlib-1.3.2-h8088a28_3.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/zlib-ng-2.3.3-h31dac16_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/zstd-1.5.7-hf451053_7.conda
+      - pypi: https://files.pythonhosted.org/packages/41/ff/9f255212c0b3636fb26edd15c0084c4855c8328843c0feeba06ecda395b7/jupyter_server_globbing-0.1.6-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/4e/f3/3803e7daff1ff25987835c439dc66a9ef1c7936cb302432975edbceb6d51/jb_toc_frontend-2.0.1-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/84/d2/5f066e0ee9b3de4687ca12ed75b0900e105aa8ca541fe6cb9c3c2892791d/jb_toc-2.0.1-py3-none-any.whl
 packages:
 - conda: https://conda.anaconda.org/conda-forge/linux-64/_openmp_mutex-4.5-20_gnu.conda
   build_number: 20
@@ -15419,3 +15430,26 @@ packages:
     - zstd >=1.5.7,<1.6.0a0
   size: 433687
   timestamp: 1786599629846
+- pypi: https://files.pythonhosted.org/packages/41/ff/9f255212c0b3636fb26edd15c0084c4855c8328843c0feeba06ecda395b7/jupyter_server_globbing-0.1.6-py3-none-any.whl
+  name: jupyter-server-globbing
+  version: 0.1.6
+  sha256: 223254d76373eabc65279989e40251af7e79491edde048e1ab3d0a2c18870a74
+- pypi: https://files.pythonhosted.org/packages/4e/f3/3803e7daff1ff25987835c439dc66a9ef1c7936cb302432975edbceb6d51/jb_toc_frontend-2.0.1-py3-none-any.whl
+  name: jb-toc-frontend
+  version: 2.0.1
+  sha256: 54660a25e3c8151327a598cc1926d3142ccbdf90e2b9659b3ffa7f33fb6df990
+  requires_python: '>=3.10'
+- pypi: https://files.pythonhosted.org/packages/84/d2/5f066e0ee9b3de4687ca12ed75b0900e105aa8ca541fe6cb9c3c2892791d/jb_toc-2.0.1-py3-none-any.whl
+  name: jb-toc
+  version: 2.0.1
+  sha256: b1eb5268581c224bf77b5083888747734614a4d916ff3e71beba9d380adbf6c9
+  requires_dist:
+  - jb-toc-frontend==2.0.1
+  - jupyter-server-globbing
+  - jupyter-server>=2.0.0
+  - coverage ; extra == 'test'
+  - pytest ; extra == 'test'
+  - pytest-asyncio ; extra == 'test'
+  - pytest-cov ; extra == 'test'
+  - pytest-jupyter[server]>=0.6.0 ; extra == 'test'
+  requires_python: '>=3.10'

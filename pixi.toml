@@ -39,3 +39,6 @@ jupyterlab-myst = ">=2.7.0,<3"
 [tasks]
 register-kernel = "python -m ipykernel install --user --name opensarlab_mintpy_recipe_book --display-name 'opensarlab_mintpy_recipe_book'"
 lab = { cmd = "jupyter lab", depends-on = ["register-kernel"] }
+
+[pypi-dependencies]
+jb-toc = ">=2.0.1, <3"

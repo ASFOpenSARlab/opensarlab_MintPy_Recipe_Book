@@ -1,4 +1,5 @@
 from collections import Counter
+import contextlib
 from datetime import datetime, date
 import os
 from pathlib import Path
@@ -23,6 +24,23 @@ from ipywidgets import Layout
 import zipfile
 
 from hyp3_sdk import Batch
+
+@contextlib.contextmanager
+def work_dir(work_pth: Union[Path, str]):
+    """
+    Temporarily change directories, within the scope of a with statement.
+    Useful when invoking scripts that only input files from the current working directory.
+
+    Usage:
+    with work_dir(work_pth):
+        do_things()
+    """
+    cwd = Path.cwd()
+    os.chdir(work_pth)
+    try:
+        yield
+    finally:
+        os.chdir(cwd)
 
 def get_projection(img_path: Union[Path, str]) -> Union[str, None]:
     """

@@ -8,24 +8,25 @@ from typing import Union, List, Dict, Tuple
 import urllib
 
 from bokeh.plotting import figure, show, output_file, ColumnDataSource, output_notebook
-from bokeh.models import LabelSet, Div
+from bokeh.models import LabelSet, Div, WMTSTileSource
 import bokeh.layouts
 from pandas.core.frame import DataFrame
 import h5py
 import mintpy
 from mintpy.utils import utils0, readfile, utils
 import numpy as np
-import opensarlab_lib as osl
 from osgeo import gdal
 from rasterio.crs import CRS
 from rasterio.warp import transform_bounds, transform
 from shapely.geometry import Point, box
 import utm
 
+from .util import work_dir
+
 
 def create_unr_gps_csv(mint_path: os.PathLike):
     mint_path = Path(mint_path)
-    with osl.work_dir(mint_path):
+    with work_dir(mint_path):
         url = 'https://geodesy.unr.edu/NGLStationPages/DataHoldings.txt'
         response = urllib.request.urlopen(url, timeout=5)
         content = response.read()
@@ -35,9 +36,10 @@ def create_unr_gps_csv(mint_path: os.PathLike):
             holdings_txt.unlink()
 
     with open(f'{mint_path}/GPS_stations.csv', 'w', newline='') as csvfile:
-        csv_writer = csv.writer(csvfile, delimiter=',', escapechar=',', quoting=csv.QUOTE_NONE)
+        csv_writer = csv.writer(csvfile)
+    
         for row in rows:
-            csv_writer.writerow([re.sub('\s+', ' ', row)])
+            csv_writer.writerow(row.split())
 
 
 def convert_long(long: float) -> float:
@@ -84,7 +86,7 @@ def get_gps_stations(
     # find all stations that have data within the ts time range
     gps_stations = list()
     with open(f'{mint_path}/{filename}', newline='') as csvfile:
-        csv_reader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+        csv_reader = csv.reader(csvfile, delimiter=',', quotechar='|')
         for row in list(csv_reader)[1:]:
             begin_date = datetime.strptime(row[7], '%Y-%m-%d')
             mod_date = datetime.strptime(row[9], '%Y-%m-%d')
@@ -138,7 +140,7 @@ def get_gps_dict(mint_path: os.PathLike, stations: List[str], filename='GPS_stat
     mint_path = Path(mint_path)
     gps_dict = {}
     with open(f'{mint_path}/GPS_stations.csv', newline='') as csvfile:
-        csv_reader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+        csv_reader = csv.reader(csvfile, delimiter=',', quotechar='|')
         for row in list(csv_reader)[1:]:
             if row[0] in stations:
                 gps_dict[row[0]] = {
@@ -241,7 +243,13 @@ def gps_station_info_plot(mint_path, velocity_png_pth, gps_stations, gps_dict):
     p = figure(x_range=(xmin, xmax), y_range=(ymin, ymax),
                x_axis_type="mercator", y_axis_type="mercator", tooltips=TOOLTIPS)
     
-    p.add_tile('CARTODBPOSITRON')
+
+    osm = WMTSTileSource(
+        url="https://tile.openstreetmap.org/{Z}/{X}/{Y}.png",
+        attribution="© OpenStreetMap contributors",
+    )
+    
+    p.add_tile(osm)
     p.scatter(marker='circle_dot', x='x', y='y', size=20, fill_alpha=0.2, color='red', alpha=0.6, source=source)
     
     p.add_layout(labels)

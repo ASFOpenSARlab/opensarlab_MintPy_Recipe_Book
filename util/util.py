@@ -1,5 +1,6 @@
 from collections import Counter
-from datetime import datetime
+import contextlib
+from datetime import datetime, date
 import os
 from pathlib import Path
 import re
@@ -12,12 +13,34 @@ from mintpy.utils import readfile
 import numpy as np
 from osgeo import gdal, ogr, osr
 gdal.UseExceptions()
+import pandas as pd
 from pyproj import Transformer
 import rasterio
 from shapely.geometry import Polygon
 from shapely.ops import transform
 import shapely.wkt
+import ipywidgets as widgets
+from ipywidgets import Layout
+import zipfile
 
+from hyp3_sdk import Batch
+
+@contextlib.contextmanager
+def work_dir(work_pth: Union[Path, str]):
+    """
+    Temporarily change directories, within the scope of a with statement.
+    Useful when invoking scripts that only input files from the current working directory.
+
+    Usage:
+    with work_dir(work_pth):
+        do_things()
+    """
+    cwd = Path.cwd()
+    os.chdir(work_pth)
+    try:
+        yield
+    finally:
+        os.chdir(cwd)
 
 def get_projection(img_path: Union[Path, str]) -> Union[str, None]:
     """
@@ -271,6 +294,42 @@ def check_within_bounds(wkt_shapely_geom: Polygon, gdf: gpd.GeoDataFrame) -> boo
     return all(wkt_shapely_geom.within(geom) for geom in gdf['geometry'])
 
 
+def get_max_extents(tifs: List[Union[Path, str]]):
+    """
+    Finds the total footprint covered by a stack of geotiffs
+    
+    tifs: list of string or posix paths to a stack of geotiffs
+    
+    returns: extents for the total footprint covered by a stack of geotiffs
+             in the format [upper-left-x, lower-right-y, lower-right-x, upper-left-y]
+    
+    """
+    corners = [gdal.Info(str(tif), format='json')['cornerCoordinates'] for tif in tifs]
+    ulx = min(corner['upperLeft'][0] for corner in corners)
+    uly = max(corner['upperLeft'][1] for corner in corners)
+    lrx = max(corner['lowerRight'][0] for corner in corners)
+    lry = min(corner['lowerRight'][1] for corner in corners)
+    return [ulx, lry, lrx, uly]
+
+
+def get_common_coverage_extents(tifs: List[Union[Path, str]]):
+    """
+    Finds the footprint for the area of shared coverage for a stack of geotiffs
+    
+    tifs: list of string or posix paths to a stack of geotiffs
+    
+    returns: extents for the area of shared coverage for a stack of geotiffs
+             in the format [upper-left-x, lower-right-y, lower-right-x, upper-left-y]
+    
+    """
+    corners = [gdal.Info(str(tif), format='json')['cornerCoordinates'] for tif in tifs]
+    ulx = max(corner['upperLeft'][0] for corner in corners)
+    uly = min(corner['upperLeft'][1] for corner in corners)
+    lrx = min(corner['lowerRight'][0] for corner in corners)
+    lry = max(corner['lowerRight'][1] for corner in corners)
+    return [ulx, lry, lrx, uly]
+
+
 def save_shapefile(
     ogr_geom: ogr.Geometry, 
     epsg: Union[str, int], 
@@ -298,4 +357,113 @@ def save_shapefile(
     feat = geom = None
 
     ds = layer = feat = geom = None
+    
 
+def select_parameter(container: Union[List, Set, Dict],
+                     description: Optional[str] = "",
+                     min_width: Optional[str] = "800px") -> widgets.RadioButtons:
+    """
+    Takes: a container, an optional widget description, and an optional minimum widget width
+    Returns: a widgets.RadioButtons object containing the objects in the container
+    """
+    return widgets.RadioButtons(
+        options=container,
+        description=description,
+        disabled=False,
+        layout=Layout(min_width=min_width)
+    )
+
+
+def gui_date_picker(dates: list) -> widgets.SelectionRangeSlider:
+    """
+    Takes: a list of dates
+    Returns: a SelectionRangeSlider over the range of provided dates in daily steps
+    """
+    start_date = datetime.strptime(min(dates), '%Y%m%d')
+    end_date = datetime.strptime(max(dates), '%Y%m%d')
+    date_range = pd.date_range(start_date, end_date, freq='D')
+    options = [(date.strftime(' %m/%d/%Y '), date) for date in date_range]
+    index = (0, len(options) - 1)
+
+    selection_range_slider = widgets.SelectionRangeSlider(
+        options=options,
+        index=index,
+        description='Dates',
+        orientation='horizontal',
+        layout={'width': '500px'})
+    return (selection_range_slider)
+
+
+def get_slider_vals(selection_range_slider: widgets.SelectionRangeSlider) -> List[date]:
+    """
+    Takes: widgets.SelectionRangeSlider of dates
+    Returns: a list containing the min and max selected dates from the SelectionRangeSlider
+    """
+    [a, b] = list(selection_range_slider.value)
+    slider_min = a.to_pydatetime()
+    slider_max = b.to_pydatetime()
+    return [slider_min, slider_max]
+
+
+def date_from_product_name(product_name: Union[str, Path]) -> Union[str, None]:
+    """
+    Takes: a string or posix path to a HyP3 product
+
+    Returns: a string date and timestamp parsed from the name or None if none found
+    """
+    regex = r"\w[0-9]{7}T[0-9]{6}"
+    results = re.search(regex, str(product_name))
+    if results:
+        return results.group(0)
+    else:
+        return None
+    
+
+def get_job_dates(jobs: Batch) -> List[str]:
+    """
+    Takes: a Batch of HyP3 Jobs
+
+    Returns: a list of string acquisition dates for Jobs in the Batch
+    """
+    dates = set()
+    for job in jobs:
+        for granule in job.job_parameters['granules']:
+            dates.add(date_from_product_name(granule).split('T')[0])
+    return list(dates)
+        
+
+def filter_jobs_by_date(jobs: Batch, date_range: List[date]) -> Batch:
+    """
+    Takes: a Batch of HyP3 Jobs and a list of two date
+    objects, the minimum and maximum dates of a range.
+
+    Returns: a filtered Batch of Jobs containing only Jobs falling within date_range
+    """
+    remaining_jobs = Batch()
+    for job in jobs:
+        for granule in job.job_parameters['granules']:
+            dt = date_from_product_name(granule).split('T')[0]
+            acquisition_date = date(int(dt[:4]), int(dt[4:6]), int(dt[-2:]))
+            if date_range[0] <= acquisition_date <= date_range[1]:
+                remaining_jobs += job
+                break
+    return remaining_jobs
+
+
+def asf_unzip(output_dir: Union[Path, str], file_path: Union[Path, str]):
+    """
+    Takes: an output directory path and a file path to a zipped archive.
+    If file is a valid zip, it extracts all to the output directory.
+    """
+    output_dir = Path(output_dir)
+    file_path = Path(file_path)
+    assert zipfile.is_zipfile(file_path)
+    
+    if output_dir.is_dir():
+        if file_path.exists():
+            print(f"Extracting: {str(file_path)}")
+            try:
+                zipfile.ZipFile(file_path).extractall(output_dir)
+            except zipfile.BadZipFile:
+                print(f"Zipfile Error.")
+            return

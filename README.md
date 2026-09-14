@@ -15,8 +15,48 @@ This Jupyter Book contains data recipes for loading ASF HyP3 INSAR_GAMMA and INS
 
 >1. ### Install the software environment needed to run the notebooks
 >
->    - Run the **Install Required Software with Conda** notebook ([1_Software_Environment.ipynb](1_Software_Environment.ipynb))
->    - Rerun this step periodically. Updates to environment config files will not take effect unless you update or recreate your environment.
+>    ### (Option 1) Run in OpenSARLab or on Another JupyterHub Supporting User-Installable Pixi Environments
+>
+>    1. [Sign up for an OpenScienceLab account and request access to OpenSARLab.](https://docs.google.com/presentation/d/1Iy16v_Yq884DINSBLAxMk9jEYxPDFKELABZfbpsbaq4/edit?usp=sharing)
+>
+>    1. Navigate to `~/Data_Recipe_Jupyter_Books/opensarlab_MintPy_Recipe_Book` to explore and  execute the notebooks.
+>
+>    ### (Option 2) Run on Your Own Machine
+>
+>    If you are interested in running this material locally on your computer, you will need to follow this workflow:
+>
+>    1. Install `Pixi` using one of the following options if not already installed:
+>        - **macOS / Linux**:
+>        ```bash
+>            curl -fsSL https://pixi.sh/install.sh | bash
+>        ```
+>        - **Download the [pixi installer](https://pixi.prefix.dev/latest/installation/)**
+>
+>    1. Restart your terminal after installing `Pixi` so it is on your PATH.
+>
+>    1. Clone the `opensarlab_MintPy_Recipe_Book` GitHub repository:
+> 
+>        ```bash
+>         git clone https://github.com/ASFOpenSARlab/opensarlab_MintPy_Recipe_Book.git
+>        ```
+>
+>    1. Move into the `opensarlab_MintPy_Recipe_Book` directory
+>       ```bash
+>       cd opensarlab_MintPy_Recipe_Book
+>       ```
+>    1. Install the `Pixi` environment needed to execute the notebooks and launch JupyterLab with a single command:
+>
+>        ```
+>        pixi run lab
+>        ```
+>
+>        :::{tip} Navigate the NISAR Cookbook from its table of contents
+>
+>        Click the "JB" tab on the left-hand sidebar if you wish to navigate the opensarlab_MintPy_Recipe_Book using a table of contents instead of the file browser.
+>
+>        This feature is provided by the [jb-toc](https://pypi.org/project/jb-toc/) JupyterLab extension.
+>        :::
+>
 >
 >1. ### Configure Climate Data Store Access (optional)
 >

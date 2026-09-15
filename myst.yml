@@ -25,6 +25,7 @@ project:
       - file: c_MintPy_Time_Series.ipynb
     - title: Extra Workflows
       children:
+      - file: S1_Seasonal_SBAS.ipynb
       - file: Error_Analysis.ipynb
       - file: Plots.ipynb
       - file: Output_GeoTiff.ipynb

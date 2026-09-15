@@ -35,6 +35,8 @@ mintpy = "*"
 pyaps3 = "*"
 jupyterlab = ">=4.6.3,<5"
 jupyterlab-myst = ">=2.7.0,<3"
+plotly = "*"
+networkx = "*"
 
 [tasks]
 register-kernel = "python -m ipykernel install --user --name opensarlab_mintpy_recipe_book --display-name 'opensarlab_mintpy_recipe_book'"

@@ -321,6 +321,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/geopy-2.5.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/h11-0.16.0-pyhcf101f3_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/h2-4.4.1-pyhcf101f3_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/noarch/h5netcdf-1.8.1-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/hpack-4.2.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/httpcore-1.0.9-pyh29332c3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/httpx-0.28.1-pyhd8ed1ab_0.conda
@@ -419,6 +420,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/rich-15.0.0-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/rioxarray-0.23.0-pyhc364b38_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/s3transfer-0.19.2-pyhd8ed1ab_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/noarch/sardem-0.13.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/send2trash-2.1.0-pyha191276_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/setuptools-84.0.0-pyh332efcf_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/six-1.17.0-pyhe01879c_1.conda
@@ -530,6 +532,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/geopy-2.5.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/h11-0.16.0-pyhcf101f3_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/h2-4.4.1-pyhcf101f3_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/noarch/h5netcdf-1.8.1-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/hpack-4.2.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/httpcore-1.0.9-pyh29332c3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/httpx-0.28.1-pyhd8ed1ab_0.conda
@@ -628,6 +631,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/rich-15.0.0-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/rioxarray-0.23.0-pyhc364b38_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/s3transfer-0.19.2-pyhd8ed1ab_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/noarch/sardem-0.13.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/send2trash-2.1.0-pyh5552912_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/setuptools-84.0.0-pyh332efcf_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/six-1.17.0-pyhe01879c_1.conda
@@ -951,6 +955,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/geopy-2.5.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/h11-0.16.0-pyhcf101f3_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/h2-4.4.1-pyhcf101f3_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/noarch/h5netcdf-1.8.1-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/hpack-4.2.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/httpcore-1.0.9-pyh29332c3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/httpx-0.28.1-pyhd8ed1ab_0.conda
@@ -1049,6 +1054,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/rich-15.0.0-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/rioxarray-0.23.0-pyhc364b38_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/s3transfer-0.19.2-pyhd8ed1ab_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/noarch/sardem-0.13.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/send2trash-2.1.0-pyh5552912_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/setuptools-84.0.0-pyh332efcf_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/six-1.17.0-pyhe01879c_1.conda
@@ -1917,7 +1923,7 @@ packages:
   license: MIT
   license_family: MIT
   purls:
-  - pkg:pypi/debugpy?source=compressed-mapping
+  - pkg:pypi/debugpy?source=hash-mapping
   run_exports: {}
   size: 2842844
   timestamp: 1788859389988
@@ -4103,7 +4109,7 @@ packages:
   - python_abi 3.14.* *_cp314
   license: BSD-3-Clause and MIT-CMU
   purls:
-  - pkg:pypi/lxml?source=compressed-mapping
+  - pkg:pypi/lxml?source=hash-mapping
   run_exports: {}
   size: 1605443
   timestamp: 1788569217048
@@ -4480,7 +4486,7 @@ packages:
   - libjpeg-turbo >=3.2.0,<4.0a0
   license: HPND
   purls:
-  - pkg:pypi/pillow?source=compressed-mapping
+  - pkg:pypi/pillow?source=hash-mapping
   run_exports: {}
   size: 1103994
   timestamp: 1788610327434
@@ -6389,6 +6395,21 @@ packages:
   run_exports: {}
   size: 100789
   timestamp: 1785796355216
+- conda: https://conda.anaconda.org/conda-forge/noarch/h5netcdf-1.8.1-pyhd8ed1ab_0.conda
+  sha256: 5bf081c0f21a57fc84b5000d53f043d63638b77dcc2137f87511a4581838c9f6
+  md5: ca7f9ba8762d3e360e47917a10e23760
+  depends:
+  - h5py
+  - numpy
+  - packaging
+  - python >=3.9
+  license: BSD-3-Clause
+  license_family: BSD
+  purls:
+  - pkg:pypi/h5netcdf?source=hash-mapping
+  run_exports: {}
+  size: 57732
+  timestamp: 1769241877548
 - conda: https://conda.anaconda.org/conda-forge/noarch/hpack-4.2.0-pyhd8ed1ab_0.conda
   sha256: fdcea5d7cb314485d3907192ef024c704311548c5b0cbeb390cd1951051e29d2
   md5: b395909221b9bd1df066e5930e18855b
@@ -7916,6 +7937,20 @@ packages:
   run_exports: {}
   size: 73914
   timestamp: 1784820701090
+- conda: https://conda.anaconda.org/conda-forge/noarch/sardem-0.13.0-pyhd8ed1ab_0.conda
+  sha256: ebbfa2fdf8ac584fe635ddc2c2446192dfd8e8e24c97afe09912a1103fd853e8
+  md5: 6c1568503c6a02012f71918719a721fe
+  depends:
+  - numpy
+  - python >=3.10
+  - requests
+  license: MIT
+  license_family: MIT
+  purls:
+  - pkg:pypi/sardem?source=hash-mapping
+  run_exports: {}
+  size: 39844
+  timestamp: 1771292542414
 - conda: https://conda.anaconda.org/conda-forge/noarch/send2trash-2.1.0-pyh5552912_1.conda
   sha256: 8fc024bf1a7b99fc833b131ceef4bef8c235ad61ecb95a71a6108be2ccda63e8
   md5: b70e2d44e6aa2beb69ba64206a16e4c6
@@ -8307,7 +8342,7 @@ packages:
   license: MIT
   license_family: MIT
   purls:
-  - pkg:pypi/wcwidth?source=compressed-mapping
+  - pkg:pypi/wcwidth?source=hash-mapping
   run_exports: {}
   size: 146490
   timestamp: 1788174996551
@@ -14633,7 +14668,7 @@ packages:
   - python_abi 3.14.* *_cp314
   license: BSD-3-Clause and MIT-CMU
   purls:
-  - pkg:pypi/lxml?source=compressed-mapping
+  - pkg:pypi/lxml?source=hash-mapping
   run_exports: {}
   size: 1299309
   timestamp: 1788569544277
@@ -14995,7 +15030,7 @@ packages:
   - tk >=8.6.13,<8.7.0a0
   license: HPND
   purls:
-  - pkg:pypi/pillow?source=compressed-mapping
+  - pkg:pypi/pillow?source=hash-mapping
   run_exports: {}
   size: 1025562
   timestamp: 1788610377472

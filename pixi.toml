@@ -37,6 +37,8 @@ jupyterlab = ">=4.6.3,<5"
 jupyterlab-myst = ">=2.7.0,<3"
 plotly = "*"
 networkx = "*"
+sardem = ">=0.13.0,<0.14"
+h5netcdf = ">=1.8.1,<2"
 
 [tasks]
 register-kernel = "python -m ipykernel install --user --name opensarlab_mintpy_recipe_book --display-name 'opensarlab_mintpy_recipe_book'"

@@ -18,6 +18,7 @@ project:
       children:
       - file: 2_CDS_Access.ipynb
       - file: 3_Access_HyP3_Data.ipynb
+      - file: 4_Access_NISAR_Data.ipynb
     - title: MintPy Time Series
       children:
       - file: a_Load_HyP3_Data.ipynb

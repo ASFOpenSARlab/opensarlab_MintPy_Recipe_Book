@@ -98,7 +98,7 @@ def create_updated_common_option_config(common_option_dict, custom_lines):
     ### Minimum spatial coherence threshold ###
     if min_coherence:
         print("-" * 80)
-        min_coherence_value = input("Enter a minimum spatial coherence value (0-1, default: 0.85)")
+        min_coherence_value = input("Enter a reference point minimum spatial coherence value (0-1, default: 0.85)")
         updated_config.append(f"mintpy.reference.minCoherence = {min_coherence_value}")
         
     ### Reference date ###
@@ -109,7 +109,9 @@ def create_updated_common_option_config(common_option_dict, custom_lines):
 
     ### Tropospheric correction ###
     if tropo_correct:
-        updated_config.append("mintpy.troposphericDelay.method = pyaps")
+        print("-" * 80)
+        tropo_method = input('Enter a troposheric delay correction method ("pyaps" for S1, "opera" for NISAR):')
+        updated_config.append(f"mintpy.troposphericDelay.method = {tropo_method}")
     else:
         updated_config.append("mintpy.troposphericDelay.method = no")
 
@@ -178,9 +180,9 @@ def create_updated_common_option_config(common_option_dict, custom_lines):
         updated_config.append(f"mintpy.unwrapError.method = {method}")
 
     ### Deramping ###
-    if deramp and "linear" in deramp_option.value:
+    if deramp and "linear" in common_option_dict["deramp"].value:
         deramp_method = "linear"
-    elif deramp and "quadratic" in deramp_option.value:
+    elif deramp and "quadratic" in common_option_dict["deramp"].value:
         deramp_method = "quadratic"
     else:
         deramp_method = None

@@ -20,8 +20,8 @@ def common_option_buttons():
                                          f"Use my {cpu_count} available cores for multithreaded processing"],
                                              description="Select a multithreaded processing option:")
     
-    min_coherence_option = util.select_parameter(["Use MintPy's default 0.85 minimum spatial coherence threshold",
-                                          "Set a minimum spatial coherence threshold",
+    min_coherence_option = util.select_parameter(["Use MintPy's default 0.85 minimum spatial coherence threshold when selecting a reference point",
+                                          "Set a minimum spatial coherence threshold for selecting a reference point",
                                          ],
                                           description="Select a spatial coherence threshold option:")
     

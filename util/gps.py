@@ -70,10 +70,19 @@ def get_gps_stations(
     # get the InSAR stack's corner coordinates
     geo_path = mint_path / 'inputs/geometryGeo.h5'
     atr = readfile.read_attribute(geo_path)
-    bbox = box(float(atr['LON_REF2']),
-               float(atr['LAT_REF3']),
-               float(atr['LON_REF1']),
-               float(atr['LAT_REF1']))
+
+    if 'bbox' in atr.keys():
+        bbox = atr['bbox'].split(',')
+        bbox = [float(coord) for coord in bbox]
+        bbox = box(float(bbox[0]),
+                   float(bbox[1]),
+                   float(bbox[2]),
+                   float(bbox[3]))        
+    else:
+        bbox = box(float(atr['LON_REF2']),
+                   float(atr['LAT_REF3']),
+                   float(atr['LON_REF1']),
+                   float(atr['LAT_REF1']))
 
     # Get the start and end dates of the time series
     demErr_path = list(mint_path.glob("timeseries*_demErr.h5"))[0]

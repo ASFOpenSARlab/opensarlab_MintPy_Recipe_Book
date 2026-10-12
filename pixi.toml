@@ -40,6 +40,8 @@ networkx = "*"
 sardem = ">=0.13.0,<0.14"
 h5netcdf = ">=1.8.1,<2"
 aiohttp = ">=3.14.4,<4"
+cvxopt = "*"
+pykdtree = "*"
 
 [tasks]
 register-kernel = "python -m ipykernel install --user --name opensarlab_mintpy_recipe_book --display-name 'opensarlab_mintpy_recipe_book'"
